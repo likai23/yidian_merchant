@@ -30,6 +30,8 @@ import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.CustomerData;
 import com.ydsh.merchant.web.entity.SupplierData;
+import com.ydsh.merchant.web.entity.ext.LookAndTakeInSupplierData;
+import com.ydsh.merchant.web.entity.ext.SupplierDataExt;
 import com.ydsh.merchant.web.service.CustomerDataService;
 import com.ydsh.merchant.web.service.SupplierDataService;
 
@@ -153,17 +155,17 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	 */
 	@RequestMapping(value = "/updateSupplierStatus", method = RequestMethod.POST)
 	@ApiOperation(value = "修改供应商状态", notes = "作者：戴艺辉")
-	public JsonResult<Object> updateSupplier(@RequestBody Map<String, Object> param) {
+	public JsonResult<Object> updateSupplier(@RequestBody SupplierDataExt param) {
 		JsonResult<Object> result = new JsonResult<Object>();
-		String updateSign = TextUtils.getMapForKeyToString(param, "updateSign");
+		String updateSign = param.getUpdateSign();
 		if (TextUtils.isEmpty(updateSign)) {
 			logger.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		// 启用和禁用供应商
 		if (updateSign.equals("updateSupplierStatus")) {
-			String id = TextUtils.getMapForKeyToString(param, "id");
-			String supplierStatus = TextUtils.getMapForKeyToString(param, "supplierStatus");
+			String id = String.valueOf(param.getId());
+			String supplierStatus = param.getSupplierStatus();
 			if (TextUtils.isEmptys(id, supplierStatus)) {
 				logger.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
@@ -177,7 +179,8 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			if (supplierStatus.equals(DBDictionaryEnumManager.user_status_0.getkey())) {
 				if (!(supplierDataCheck.getSupplierStatus().equals(DBDictionaryEnumManager.user_status_1.getkey()))) {
 					logger.info("不是禁用状态，不能启用");
-					throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "不是禁用状态，不能启用", new Exception());
+					result.error("不是禁用状态，不能启用！");
+					return result;
 				}
 				SupplierData supplierData = new SupplierData();
 				supplierData.setId(Long.parseLong(id));
@@ -185,12 +188,14 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				baseService.updateById(supplierData);
 				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 				result.setMessage("更新状态成功！");
+				return result;
 			}
 			// 禁用
 			else if (supplierStatus.equals(DBDictionaryEnumManager.user_status_1.getkey())) {
 				if (!(supplierDataCheck.getSupplierStatus().equals(DBDictionaryEnumManager.user_status_0.getkey()))) {
 					logger.info("不是启用状态");
-					throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "不是启用状态，不能禁用", new Exception());
+					result.error("不是启用状态，不能禁用！");
+					return result;
 				}
 				SupplierData supplierData = new SupplierData();
 				supplierData.setId(Long.parseLong(id));
@@ -198,6 +203,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				baseService.updateById(supplierData);
 				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 				result.setMessage("更新状态成功！");
+				return result;
 			} else {
 				logger.info("参数异常");
 				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
@@ -205,9 +211,9 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		}
 		// 审核
 		else if (updateSign.equals("reviewSupplier")) {
-			String id = TextUtils.getMapForKeyToString(param, "id");
-			String reviewStatus = TextUtils.getMapForKeyToString(param, "reviewStatus");
-			String reviewRemarks = TextUtils.getMapForKeyToString(param, "reviewBz");
+			String id = String.valueOf(param.getId());
+			String reviewStatus = param.getReviewStatus();
+			String reviewRemarks = param.getReviewRemarks();
 			if (TextUtils.isEmptys(id, reviewStatus)) {
 				logger.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
@@ -219,22 +225,23 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			baseService.updateById(supplierData);
 			result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 			result.setMessage("审核成功！");
+			return result;
 		} 
 		//删除
 		else if(updateSign.equals("removeSupplier")) {
-			String id = TextUtils.getMapForKeyToString(param, "id");
+			String id = String.valueOf(param.getId());
 			SupplierData supplierData = new SupplierData();
 			supplierData.setId(Long.parseLong(id));
 			supplierData.setStatus(DBDictionaryEnumManager.invalid.getkey());
 			baseService.updateById(supplierData);
 			result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 			result.setMessage("删除成功！");
+			return result;
 		}
 		else {
 			logger.info("参数异常");
 			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 		}
-		return result;
 	}
 
 	/**
@@ -245,12 +252,12 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	 * @param @return
 	 * @return
 	 */
-	@RequestMapping(value = "/getSupplierById", method = RequestMethod.POST)
+	@RequestMapping(value = "/getSupplierById", method = RequestMethod.GET)
 	@ApiOperation(value = "获取供应商基本信息", notes = "作者：戴艺辉")
-	public JsonResult<Object> getSupplierById(@RequestBody Map<String, Object> param) {
+	public JsonResult<Object> getSupplierById(@RequestBody LookAndTakeInSupplierData param) {
 		JsonResult<Object> result = new JsonResult<Object>();
-		String id = TextUtils.getMapForKeyToString(param, "id");
-		String getSign = TextUtils.getMapForKeyToString(param, "getSign");
+		String id = String.valueOf(param.getId());
+		String getSign = param.getGetSign();
 		if (TextUtils.isEmptys(id, getSign)) {
 			logger.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
@@ -258,9 +265,9 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		// 查看
 		if (getSign.equals("lookSupplier")) {
 			SupplierData supplierData = baseService.getById(id);
-			result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 			result.setMessage("查询成功！");
 			result.setData(supplierData);
+			return result;
 		}
 		// 修改时进入查看
 		else if (getSign.equals("lookSupplierWithStatus")) {
@@ -268,15 +275,17 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			//只有待审核和审核不通过才能修改
 			if ((supplierData.getReviewStatus()).equals(DBDictionaryEnumManager.review_0.getkey())
 					|| (supplierData.getReviewStatus()).equals(DBDictionaryEnumManager.review_2.getkey())) {
-				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 				result.setMessage("查询成功！");
 				result.setData(supplierData);
+				return result;
 			}else {
-				result.setCode(String.valueOf(ErrorCode.SYS_EXCEPTION.getCode()));
-				result.setMessage("查询失败！");
+				result.error("状态不为待审核或审核不通过，不允许修改！");
+				return result;
 			}
+		}else {
+			logger.info("参数异常");
+			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 		}
-		return result;
 	}
 
 	/**
@@ -291,6 +300,11 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	public JsonResult<IPage<Map<String,Object>>> getSupplierPages(PageParam<SupplierData> param){
 		JsonResult<IPage<Map<String,Object>>> returnPage=new JsonResult<IPage<Map<String,Object>>>();
 		Page<SupplierData> page=new Page<SupplierData>(param.getPageNum(),param.getPageSize());
+		if(param.getPageSize()>500) {
+			logger.error("分页最大限制500，" +param);
+			returnPage.error("分页最大限制500");
+			return returnPage;
+		}
 		QueryWrapper<SupplierData> queryWrapper =new QueryWrapper<SupplierData>();
 		queryWrapper.setEntity(param.getParam());
 		//分页数据
