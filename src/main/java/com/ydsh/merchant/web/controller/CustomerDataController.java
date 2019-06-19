@@ -34,6 +34,7 @@ import com.ydsh.merchant.web.entity.CustomerData;
 import com.ydsh.merchant.web.entity.ext.CustomerDataExt;
 import com.ydsh.merchant.web.entity.ext.LookAndTakeInCustomerData;
 import com.ydsh.merchant.web.service.CustomerDataService;
+import com.ydsh.merchant.web.service.SupplierGoodsService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,6 +64,8 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 
 	@Autowired
 	private CustomerDataService customerDataService;
+	@Autowired
+	private SupplierGoodsService supplierGoodsService;
 
 	/**
 	 * @explain 添加
@@ -136,26 +139,26 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 		} else {
 			// 更新客户基本信息
 			if (updateSign.equals("updateCustomer")) {
-				String id = String.valueOf(param.getId());   
-				String cdNo = param.getCdNo(); 
-				String customerName = param.getCustomerName();   
-				String customerCategory = param.getCustomerCategory();  
-				String customerType = param.getCustomerType(); 
-				String customerPlatformIds = param.getCustomerPlatformIds();  
-				String customerLegperson = param.getCustomerLegperson();  
-				String customerDockperson = param.getCustomerDockperson(); 
-				String customerProvince = param.getCustomerProvince(); 
-				String customerCity = param.getCustomerCity(); 
+				String id = String.valueOf(param.getId());
+				String cdNo = param.getCdNo();
+				String customerName = param.getCustomerName();
+				String customerCategory = param.getCustomerCategory();
+				String customerType = param.getCustomerType();
+				String customerPlatformIds = param.getCustomerPlatformIds();
+				String customerLegperson = param.getCustomerLegperson();
+				String customerDockperson = param.getCustomerDockperson();
+				String customerProvince = param.getCustomerProvince();
+				String customerCity = param.getCustomerCity();
 				String customerDockphone = param.getCustomerDockphone();
-				String salesManId =  param.getSalesManId();
+				String salesManId = param.getSalesManId();
 				String saleMain = param.getSaleMain();
 				String phonechangeIf = param.getPhonechangeIf();
 				String registerNumber = param.getRegisterNumber();
-				String customerPersonType = param.getCustomerPersonType(); 
-				String businessFile = param.getBusinessFile(); 
+				String customerPersonType = param.getCustomerPersonType();
+				String businessFile = param.getBusinessFile();
 				String cuspersonId = param.getCuspersonId();
-				String idcardOn = param.getIdcardOn(); 
-				String idcardUnder = param.getIdcardUnder(); 
+				String idcardOn = param.getIdcardOn();
+				String idcardUnder = param.getIdcardUnder();
 				// 供应商编码
 				if (TextUtils.isEmptys(id, cdNo, customerName, customerCategory, customerType, customerPlatformIds,
 						customerLegperson, customerDockperson, customerProvince, customerCity, customerDockphone,
@@ -277,13 +280,13 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 				if (customerDataCheck == null) {
 					logger.info("参数为空");
 					throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
-				} 
+				}
 				if (!(customerDataCheck.getReviewStatus().equals(DBDictionaryEnumManager.review_0.getkey()))) {
 					logger.info("不是待审核状态，不可审核！");
 					result.error("不是待审核状态，不可审核！");
 					return result;
-				}else {
-					CustomerData customerData=new CustomerData();
+				} else {
+					CustomerData customerData = new CustomerData();
 					customerData.setId(param.getId());
 					customerData.setReviewStatus(param.getReviewStatus());
 					customerData.setReviewRemarks(reviewBz);
@@ -294,7 +297,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 			}
 			// 删除客户
 			else if (updateSign.equals("deleteCustomer")) {
-				String id = String.valueOf(param.getId()) ;
+				String id = String.valueOf(param.getId());
 				CustomerData customerData = new CustomerData();
 				customerData.setId(Long.parseLong(id));
 				customerData.setStatus(Integer.parseInt(DBDictionaryEnumManager.invalid.getkey()));
@@ -316,12 +319,12 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 	 * @time 2019-06-11 09:49:42
 	 */
 	@RequestMapping(value = "/selectUserPages", method = RequestMethod.GET)
-	@ApiOperation(value = "分页查询", notes = "分页查询返回[IPage<Map<String,Object>>],作者：戴艺辉")
+	@ApiOperation(value = "分页查询", notes = "分页查询返回JsonResult<IPage<Map<String, Object>>>,作者：戴艺辉")
 	public JsonResult<IPage<Map<String, Object>>> selectUserPages(PageParam<CustomerData> param) {
 		JsonResult<IPage<Map<String, Object>>> returnPage = new JsonResult<IPage<Map<String, Object>>>();
 		Page<CustomerData> page = new Page<CustomerData>(param.getPageNum(), param.getPageSize());
-		if(param.getPageSize()>500) {
-			logger.error("分页最大限制500，" +param);
+		if (param.getPageSize() > 500) {
+			logger.error("分页最大限制500，" + param);
 			returnPage.error("分页最大限制500");
 			return returnPage;
 		}
@@ -345,7 +348,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 	 * @return
 	 */
 	@RequestMapping(value = "/getCustomerById", method = RequestMethod.GET)
-	@ApiOperation(value = "分页查询", notes = "分页查询返回[IPage<CustomerData>],作者：戴艺辉")
+	@ApiOperation(value = "分页查询", notes = "分页查询返回JsonResult<CustomerData>,作者：戴艺辉")
 	public JsonResult<CustomerData> getCustomerById(@RequestBody LookAndTakeInCustomerData param) {
 		JsonResult<CustomerData> returnPage = new JsonResult<CustomerData>();
 		String id = String.valueOf(param.getId());
@@ -373,7 +376,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 			}
 			String reviewStatus = customerData.getReviewStatus();
-			//审核状态为0或者不通过才可以查看
+			// 审核状态为0或者不通过才可以查看
 			if (reviewStatus.equals(DBDictionaryEnumManager.review_0.getkey())
 					|| reviewStatus.equals(DBDictionaryEnumManager.review_2.getkey())) {
 				returnPage.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
@@ -388,7 +391,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 			logger.info("参数异常");
 			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 		}
-
 		return returnPage;
 	}
+
 }
