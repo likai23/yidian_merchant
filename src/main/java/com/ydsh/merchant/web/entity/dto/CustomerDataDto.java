@@ -1,10 +1,10 @@
 /**
- * @filename:CustomerData 2019-06-19 03:43:17
- * @project ydsh-saas-service-goods  V1.0
+ * @filename:CustomerData 2019-06-11 09:49:42
+ * @project ydsh-saas-service-merchant  V1.0
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -29,9 +29,9 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CustomerData implements Serializable {
+public class CustomerDataDto implements Serializable {
 
-	private static final long serialVersionUID = 1560930197119L;
+	private static final long serialVersionUID = 1560217782793L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "主键ID")
@@ -128,14 +128,11 @@ public class CustomerData implements Serializable {
 	private String customerStatus;
 	@ApiModelProperty(name = "remarks" , value = "备注")
 	private String remarks;
-	@ApiModelProperty(name = "createId" , value = "创建人ID")
-	private Long createId;
-	@ApiModelProperty(name = "updateId" , value = "修改人ID")
-	private Long updateId;
-	@ApiModelProperty(name = "status" , value = "数据状态（1：正常[√]；0：删除）")
-	private Integer status;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "updateTime" , value = "修改时间（自动生成, MySQL 5.7+）")
 	private Date updateTime;
+	@ApiModelProperty(name = "updateSign" , value = "更新客户基本信息值为updateCustomer{}，更新客户状态值为updateCustomerStatus{字段id,customerStatus必填}， 审核客户状态值为reviewCustomer{字段id,reviewStatus,reviewBz必填}")
+	private String updateSign;
+	
 }

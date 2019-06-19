@@ -22,8 +22,8 @@ import com.ydsh.merchant.common.enums.ErrorCode;
 import com.ydsh.merchant.common.exception.SystemException;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplierGoods;
-import com.ydsh.merchant.web.entity.ext.SupplierGoodsChange;
-import com.ydsh.merchant.web.entity.ext.SupplierGoodsExt;
+import com.ydsh.merchant.web.entity.dto.SupplierGoodsChangeDto;
+import com.ydsh.merchant.web.entity.dto.SupplierGoodsDto;
 import com.ydsh.merchant.web.service.SupplierGoodsService;
 
 import io.swagger.annotations.Api;
@@ -57,17 +57,17 @@ public class SupplierGoodsController extends AbstractController<SupplierGoodsSer
 	 */
 	@RequestMapping(value = "/saveSupplierPrice", method = RequestMethod.POST)
 	@ApiOperation(value = "设置保存供应价", notes = "分页查询返回JsonResult<Object>,作者：戴艺辉")
-	public JsonResult<Object> saveSupplierPrice(@RequestBody SupplierGoodsExt param) {
+	public JsonResult<Object> saveSupplierPrice(@RequestBody SupplierGoodsDto param) {
 		JsonResult<Object> returnPage = new JsonResult<Object>();
 		// 验证是否为空
-		List<SupplierGoodsChange> supplierGoodsList=param.getSupplierGoodsList();
-		for (SupplierGoodsChange supplierGoods : supplierGoodsList) {
+		List<SupplierGoodsChangeDto> supplierGoodsList=param.getSupplierGoodsList();
+		for (SupplierGoodsChangeDto supplierGoods : supplierGoodsList) {
 			if(supplierGoods.getSupplyPrice()==null||supplierGoods.getTaxRate()==null||supplierGoods.getPayMethod()==null) {
 				logger.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 			}
  		}
-		for (SupplierGoodsChange supplierGoodsChange : supplierGoodsList) {
+		for (SupplierGoodsChangeDto supplierGoodsChange : supplierGoodsList) {
 			
 			SupplierGoods supplierGoods=new SupplierGoods();
 			try {

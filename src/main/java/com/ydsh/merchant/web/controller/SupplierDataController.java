@@ -24,15 +24,12 @@ import com.ydsh.merchant.common.db.DBKeyGenerator;
 import com.ydsh.merchant.common.enums.DBBusinessKeyTypeEnums;
 import com.ydsh.merchant.common.enums.DBDictionaryEnumManager;
 import com.ydsh.merchant.common.enums.ErrorCode;
-import com.ydsh.merchant.common.enums.SuccessCode;
 import com.ydsh.merchant.common.exception.SystemException;
 import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
-import com.ydsh.merchant.web.entity.CustomerData;
 import com.ydsh.merchant.web.entity.SupplierData;
-import com.ydsh.merchant.web.entity.ext.LookAndTakeInSupplierData;
-import com.ydsh.merchant.web.entity.ext.SupplierDataExt;
-import com.ydsh.merchant.web.service.CustomerDataService;
+import com.ydsh.merchant.web.entity.dto.LookAndTakeInSupplierDataDto;
+import com.ydsh.merchant.web.entity.dto.SupplierDataDto;
 import com.ydsh.merchant.web.service.SupplierDataService;
 
 import io.swagger.annotations.Api;
@@ -93,7 +90,6 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			entity.setSdNo(sdNo);
 			boolean rsg = baseService.save(entity);
 			if (rsg) {
-				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 				result.success("添加成功");
 			} else {
 				result.error("添加失败！");
@@ -135,7 +131,6 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			entity.setReviewStatus(DBDictionaryEnumManager.review_0.getkey());
 			boolean rsg = baseService.updateById(entity);
 			if (rsg) {
-				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
 				result.success("修改成功！");
 			} else {
 				result.error("修改失败！");
@@ -155,7 +150,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	 */
 	@RequestMapping(value = "/updateSupplierStatus", method = RequestMethod.POST)
 	@ApiOperation(value = "修改供应商状态", notes = "作者：戴艺辉")
-	public JsonResult<Object> updateSupplier(@RequestBody SupplierDataExt param) {
+	public JsonResult<Object> updateSupplier(@RequestBody SupplierDataDto param) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		String updateSign = param.getUpdateSign();
 		if (TextUtils.isEmpty(updateSign)) {
@@ -186,8 +181,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				supplierData.setId(Long.parseLong(id));
 				supplierData.setSupplierStatus(supplierStatus);
 				baseService.updateById(supplierData);
-				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-				result.setMessage("更新状态成功！");
+				result.success("更新状态成功！");
 				return result;
 			}
 			// 禁用
@@ -201,8 +195,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				supplierData.setId(Long.parseLong(id));
 				supplierData.setSupplierStatus(supplierStatus);
 				baseService.updateById(supplierData);
-				result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-				result.setMessage("更新状态成功！");
+				result.success("更新状态成功！");
 				return result;
 			} else {
 				logger.info("参数异常");
@@ -223,8 +216,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			supplierData.setReviewStatus(reviewStatus);
 			supplierData.setReviewRemarks(reviewRemarks);
 			baseService.updateById(supplierData);
-			result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-			result.setMessage("审核成功！");
+			result.success("审核成功！");
 			return result;
 		} 
 		//删除
@@ -234,8 +226,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			supplierData.setId(Long.parseLong(id));
 			supplierData.setStatus(DBDictionaryEnumManager.invalid.getkey());
 			baseService.updateById(supplierData);
-			result.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-			result.setMessage("删除成功！");
+			result.success("删除成功！");
 			return result;
 		}
 		else {
@@ -254,7 +245,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	 */
 	@RequestMapping(value = "/getSupplierById", method = RequestMethod.GET)
 	@ApiOperation(value = "获取供应商基本信息", notes = "作者：戴艺辉")
-	public JsonResult<Object> getSupplierById(@RequestBody LookAndTakeInSupplierData param) {
+	public JsonResult<Object> getSupplierById(@RequestBody LookAndTakeInSupplierDataDto param) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		String id = String.valueOf(param.getId());
 		String getSign = param.getGetSign();

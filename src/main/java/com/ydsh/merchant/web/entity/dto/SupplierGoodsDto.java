@@ -4,7 +4,7 @@
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity.ext;
+package com.ydsh.merchant.web.entity.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,11 +26,11 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SupplierGoodsExt implements Serializable {
+public class SupplierGoodsDto implements Serializable {
 
 	private static final long serialVersionUID = 1560217783249L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "主键ID")
-	private List<SupplierGoodsChange> supplierGoodsList;
+	private List<SupplierGoodsChangeDto> supplierGoodsList;
 }

@@ -75,6 +75,15 @@ public enum DBDictionaryEnumManager {
 	invalid("0","无效"),
 	valid("1","有效"),
 	
+	/**
+	 * *充值账本
+	 */
+	account_book_0("0","余额充值"),
+	account_book_1("1","佣金充值"),
+	account_book_2("2","预付充值"),
+	account_book_3("3","返利充值"),
+	account_book_4("4","回款充值"),
+	
 	;
 
 	/** 枚举值 */

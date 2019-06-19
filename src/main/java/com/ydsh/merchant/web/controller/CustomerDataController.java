@@ -31,8 +31,8 @@ import com.ydsh.merchant.common.exception.SystemException;
 import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.CustomerData;
-import com.ydsh.merchant.web.entity.ext.CustomerDataExt;
-import com.ydsh.merchant.web.entity.ext.LookAndTakeInCustomerData;
+import com.ydsh.merchant.web.entity.dto.CustomerDataDto;
+import com.ydsh.merchant.web.entity.dto.LookAndTakeInCustomerDataDto;
 import com.ydsh.merchant.web.service.CustomerDataService;
 import com.ydsh.merchant.web.service.SupplierGoodsService;
 
@@ -130,7 +130,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 	 */
 	@RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
 	@ApiOperation(value = "修改客户", notes = "作者：戴艺辉")
-	public JsonResult<Object> updateCustomer(@RequestBody CustomerDataExt param) {
+	public JsonResult<Object> updateCustomer(@RequestBody CustomerDataDto param) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		String updateSign = param.getUpdateSign();
 		if ("".equals(updateSign) || updateSign == null) {
@@ -349,7 +349,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 	 */
 	@RequestMapping(value = "/getCustomerById", method = RequestMethod.GET)
 	@ApiOperation(value = "分页查询", notes = "分页查询返回JsonResult<CustomerData>,作者：戴艺辉")
-	public JsonResult<CustomerData> getCustomerById(@RequestBody LookAndTakeInCustomerData param) {
+	public JsonResult<CustomerData> getCustomerById(@RequestBody LookAndTakeInCustomerDataDto param) {
 		JsonResult<CustomerData> returnPage = new JsonResult<CustomerData>();
 		String id = String.valueOf(param.getId());
 		String getSign = param.getGetSign();
@@ -364,8 +364,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 				logger.info("参数异常");
 				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 			}
-			returnPage.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-			returnPage.setMessage("查询成功！");
+			returnPage.success("查询成功！");
 			returnPage.setData(customerData);
 		}
 		// 修改进入查看
@@ -379,12 +378,10 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 			// 审核状态为0或者不通过才可以查看
 			if (reviewStatus.equals(DBDictionaryEnumManager.review_0.getkey())
 					|| reviewStatus.equals(DBDictionaryEnumManager.review_2.getkey())) {
-				returnPage.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-				returnPage.setMessage("查询成功！");
+				returnPage.success("查询成功！");
 				returnPage.setData(customerData);
 			} else {
-				returnPage.setCode(String.valueOf(SuccessCode.SYS_SUCCESS.getCode()));
-				returnPage.setMessage("审核状态不对，查询失败！");
+				returnPage.success("审核状态不对，查询失败！");
 				returnPage.setData(null);
 			}
 		} else {

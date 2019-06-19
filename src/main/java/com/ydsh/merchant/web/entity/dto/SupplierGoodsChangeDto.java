@@ -4,7 +4,7 @@
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity.ext;
+package com.ydsh.merchant.web.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SupplierGoodsChange implements Serializable {
+public class SupplierGoodsChangeDto implements Serializable {
 
 	private static final long serialVersionUID = 1560217783249L;
 	

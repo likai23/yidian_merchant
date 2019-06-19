@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydsh.merchant.web.dao.SupplierPayAddcountDao">
+
+	<select id="selectPayAddcountPage" parameterType="com.ydsh.merchant.web.entity.dto.SupplierPayAddcountAndDataDto" resultType="com.ydsh.merchant.web.entity.dto.SupplierPayAddcountAndDataDto">	
+        SELECT 
+            bsd.id AS sdId,
+            bsd.supplier_name ,
+            bsd.sd_no ,
+            bsd.trade ,
+            bsd.type ,
+            bsd.legperson ,
+            bsd.reqperson ,
+            bsd.province ,
+            bsd.city ,
+            bsd.req_phone ,
+            bsd.forshort ,
+            bsd.address ,
+            bsd.logo ,
+            bsd.chain_if ,
+            bsd.bz ,
+            bsd.supplier_status ,
+            bsd.register_num ,
+            bsd.legperson_type ,
+            bsd.business_file ,
+            bsd.register_file ,
+            bsd.certificate ,
+            bsd.review_id AS sd_review_id,
+            bsd.review_status AS sd_review_status,
+            bsd.review_remarks AS sd_review_remarks,
+            bsd.create_time AS sd_create_time,
+   	        bspa.id AS spaId,
+   	        bspa.sd_id ,
+            bspa.account_num ,
+            bspa.trade_num ,
+            bspa.account_book ,
+            CAST((bspa.recharge)/10000 AS DECIMAL(18,4)) AS recharge ,
+            bspa.recharge_way,
+            bspa.add_file ,
+            bspa.add_bz ,
+            bspa.create_id AS spa_create_id ,
+            bspa.review_id AS spa_review_id,
+            bspa.review_status AS spa_review_status,
+            (SELECT CAST((SUM(bspa.`recharge`))/10000 AS DECIMAL(18,4)) AS rechargeall FROM supplier_pay_addcount bspa) AS rechargeall,
+            bspa.review_time AS spa_review_time,    
+            bspa.create_time AS spa_create_time
+        FROM 
+            supplier_data bsd,supplier_pay_addcount bspa
+            <where>
+            bsd.id=bspa.sd_id
+            <if test="queryWrapper.sdId != null">
+                    and  bspa.sd_id = #{queryWrapper.sdId}
+            </if>
+             <if test="queryWrapper.accountBook != null">
+                    and  bspa.account_book = #{queryWrapper.accountBook}
+            </if>
+             <if test="queryWrapper.tradeNum != null">
+                    and  bspa.trade_num = #{queryWrapper.tradeNum}
+            </if>
+             <if test="queryWrapper.reviewStatus != null">
+                    and  bspa.review_status = #{reviewStatus}
+            </if>
+              <if test="queryWrapper.spaCreateBeginTime != null">
+                    and  bspa.create_time <![CDATA[ >= ]]> #{queryWrapper.spaCreateBeginTime}
+            </if>
+            <if test="queryWrapper.spaCreateEndTime != null">
+                    and  bspa.create_time <![CDATA[ < ]]> #{queryWrapper.spaCreateEndTime}
+            </if>
+            <if test="queryWrapper.sdNo != null">
+                    and  bsd.sd_no = #{queryWrapper.sdNo}
+            </if>
+            <if test="queryWrapper.supplierName != null">
+                    and  bsd.supplier_name  like concat('%', #{queryWrapper.supplierName}, '%')
+            </if>
+            </where> 
+          
+		
+		
+	</select>
+</mapper>
