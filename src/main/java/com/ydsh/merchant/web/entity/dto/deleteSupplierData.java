@@ -1,21 +1,22 @@
 /**
- * @filename:SupplierData 2019-06-11 04:30:28
- * @project ydsh-saas-service-merchant  V1.0
+ * @filename:SupplierData 2019-06-19 03:43:17
+ * @project ydsh-saas-service-goods  V1.0
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
 package com.ydsh.merchant.web.entity.dto;
 
+import java.io.Serializable;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import java.io.Serializable;
 
 /**   
  * <p>代码自动生成，请勿修改</p>
  * 
- * <p>说明： 表注释实体类</P>
+ * <p>说明： 供应基础信息表实体类</P>
  * @version: V1.0
  * @author: 戴艺辉
  * 
@@ -23,12 +24,12 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SupplierDataDto implements Serializable {
+public class deleteSupplierData implements Serializable {
 
-	private static final long serialVersionUID = 1560241828570L;
+	private static final long serialVersionUID = 1560930197848L;
 	
 	@ApiModelProperty(name = "id" , value = "主键ID")
 	private Long id;
-	@ApiModelProperty(name = "supplierStatus" , value = "供应商状态")
-	private String supplierStatus;
+	@ApiModelProperty(name = "status" , value = "删除标志")
+	private String status;
 }

@@ -7,9 +7,18 @@
 package com.ydsh.merchant.web.service.impl;
 
 import com.ydsh.merchant.web.entity.SupplierPayReducecount;
+import com.ydsh.merchant.web.entity.dto.SupplierPayReducecountAndDataDto;
+import com.ydsh.merchant.web.entity.dto.SupplierPayReducecountQueryDto;
 import com.ydsh.merchant.web.dao.SupplierPayReducecountDao;
 import com.ydsh.merchant.web.service.SupplierPayReducecountService;
+
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 /**   
@@ -23,4 +32,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 @Service
 public class SupplierPayReducecountServiceImpl  extends ServiceImpl<SupplierPayReducecountDao, SupplierPayReducecount> implements SupplierPayReducecountService  {
 	
+	/**
+	 * 
+	* *退款记录表和供应商表连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  public Page<SupplierPayReducecountAndDataDto> selectPayReducePage(IPage<Map<String, Object>> page,@Param("queryWrapper") SupplierPayReducecountQueryDto queryWrapper){
+		  return baseMapper.selectPayReducePage(page, queryWrapper);
+	  }
 }

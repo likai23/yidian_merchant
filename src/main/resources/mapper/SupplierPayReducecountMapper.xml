@@ -2,5 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ydsh.merchant.web.dao.SupplierPayReducecountDao">
 
-
+	<select id="selectPayReducePage" parameterType="com.ydsh.merchant.web.entity.dto.SupplierPayReducecountQueryDto" resultType="com.ydsh.merchant.web.entity.dto.SupplierPayReducecountAndDataDto">	
+         SELECT 
+            bsd.supplier_name ,
+            bsd.sd_no ,
+            bsd.trade ,
+            bsd.type ,
+            bsd.legperson ,
+            bsd.reqperson ,
+            bsd.province ,
+            bsd.city ,
+            bsd.req_phone ,
+            bsd.forshort ,
+            bsd.address ,
+            bsd.logo ,
+            bsd.chain_if ,
+            bsd.bz ,
+            bsd.supplier_status ,
+            bsd.register_num ,
+            bsd.legperson_type ,
+            bsd.legperson_id,
+            bsd.business_file ,
+            bsd.register_file ,
+            bsd.certificate ,
+            bsd.review_id AS sd_review_id,
+            bsd.review_status AS sd_review_status,
+            bsd.review_remarks AS sd_review_remarks,
+            bsd.create_time AS sd_create_time,
+	        bspr.id AS bsprId,
+            bspr.sd_id ,
+            CAST((bspr.refund_amount)/10000 AS DECIMAL(18,4)) AS refoundAmount,
+            bspr.refund_way ,
+            bspr.file_id ,
+            bspr.trade_num ,
+            bspr.trade_type,
+            bspr.file,
+            bspr.create_id AS spr_create_id,
+            bspr.review_id AS spr_review_id,
+            bspr.review_status AS spr_review_status,
+            (SELECT SUM(CAST((bspr.refund_amount)/10000 AS DECIMAL(18,4))) AS rechargeall FROM supplier_pay_reducecount bspr) AS rechargeall,
+            bspr.review_time AS spr_review_time,
+            bspr.create_time AS spr_create_time
+        FROM 
+            supplier_pay_reducecount bspr,supplier_data bsd
+        <where>
+            bspr.sd_id=bsd.id 
+        <if test="queryWrapper.sdNo != null">
+            and bsd.sd_no = #{queryWrapper.sdNo}
+        </if>
+        <if test="queryWrapper.supplierName != null">
+            and bsd.supplier_name like concat('%', #{queryWrapper.supplierName}, '%')
+        </if>
+        <if test="queryWrapper.tradeNum != null">
+            and bspr.trade_num like concat('%', #{queryWrapper.tradeNum}, '%')
+        </if>
+        <if test="queryWrapper.createTimeBegin != null">
+            and bspr.create_time <![CDATA[ >= ]]> #{queryWrapper.createTimeBegin}
+        </if>
+        <if test="queryWrapper.createTimeEnd != null">
+            and bspr.create_time <![CDATA[ < ]]> #{queryWrapper.createTimeEnd}
+        </if>
+         <if test="queryWrapper.reviewStatus != null">
+            and bspr.review_status = #{queryWrapper.reviewStatus}
+        </if>
+        </where>
+         ORDER by bspr.id DESC
+     </select>
 </mapper>

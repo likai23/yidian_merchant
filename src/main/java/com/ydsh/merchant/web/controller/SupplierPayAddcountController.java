@@ -98,7 +98,10 @@ public class SupplierPayAddcountController extends AbstractController<SupplierPa
 	public JsonResult<Object> saveSupplierPayAddcount(@RequestBody SupplierPayAddcountDto entity) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		if (null != entity) {
-			if (entity.getAccountBook() == null || entity.getRecharge() == null || entity.getRechargeWay() == null) {
+			String accountBook=entity.getAccountBook();
+			String recharge=entity.getRecharge();
+			String rechargeWay=entity.getRechargeWay();
+			if (TextUtils.isEmptys(accountBook,recharge,rechargeWay)) {
 				logger.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 			}

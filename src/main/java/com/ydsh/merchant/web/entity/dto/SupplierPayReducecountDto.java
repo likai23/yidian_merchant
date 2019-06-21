@@ -4,7 +4,7 @@
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,7 +31,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SupplierPayReducecount implements Serializable {
+public class SupplierPayReducecountDto implements Serializable {
 
 	private static final long serialVersionUID = 1560930198085L;
 	
@@ -41,7 +41,7 @@ public class SupplierPayReducecount implements Serializable {
 	@ApiModelProperty(name = "sdId" , value = "供应商基本资料表的id")
 	private Long sdId;
 	@ApiModelProperty(name = "refundAmount" , value = "退款金额")
-	private Long refundAmount;
+	private String refundAmount;
 	@ApiModelProperty(name = "refundWay" , value = "退款方式:1.银行转账，2.支付宝转账，3.微信转账，4.京东在线转账")
 	private String refundWay;
 	@ApiModelProperty(name = "fileId" , value = "文件编号")
@@ -68,8 +68,8 @@ public class SupplierPayReducecount implements Serializable {
 	private String remarks;
 	@ApiModelProperty(name = "updateId" , value = "修改人ID")
 	private Long updateId;
-	@ApiModelProperty(name = "status" , value = "数据状态（1：正常[√]；0：删除）")
-	private Integer status;
+	@ApiModelProperty(name = "STATUS" , value = "数据状态（1：正常[√]；0：删除）")
+	private Integer STATUS;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "createTime" , value = "提交时间")

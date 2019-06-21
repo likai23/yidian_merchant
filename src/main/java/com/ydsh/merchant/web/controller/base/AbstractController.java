@@ -92,7 +92,6 @@ public class AbstractController<S extends IService<T>,T>{
 	@ApiOperation(value = "添加", notes = "作者：戴艺辉")
 	public JsonResult<T> insertBatch(@RequestBody List<T> entityList){
 		JsonResult<T> result=new JsonResult<T>();
-		List<T> list=entityList;
 		if (null!=entityList) {
 			boolean rsg = baseService.saveBatch(entityList);
 			if (rsg) {

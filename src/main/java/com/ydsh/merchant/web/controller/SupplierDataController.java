@@ -30,6 +30,8 @@ import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplierData;
 import com.ydsh.merchant.web.entity.dto.LookAndTakeInSupplierDataDto;
 import com.ydsh.merchant.web.entity.dto.SupplierDataDto;
+import com.ydsh.merchant.web.entity.dto.deleteSupplierData;
+import com.ydsh.merchant.web.entity.dto.reviewSupplierData;
 import com.ydsh.merchant.web.service.SupplierDataService;
 
 import io.swagger.annotations.Api;
@@ -141,24 +143,19 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		return result;
 	}
 
+	
+	
 	/**
-	 * @explain 1-修改供应商状态(启用/禁用)，2-审核供应商，3-删除
+	 * @explain 启用/禁用供应商
 	 * @param entity
 	 * @return JsonResult
 	 * @author 戴艺辉
 	 * @time 2019-06-11 09:49:42
 	 */
-	@RequestMapping(value = "/updateSupplierStatus", method = RequestMethod.POST)
-	@ApiOperation(value = "修改供应商状态", notes = "作者：戴艺辉")
-	public JsonResult<Object> updateSupplier(@RequestBody SupplierDataDto param) {
+	@RequestMapping(value = "/updateSupplierDataStatus", method = RequestMethod.POST)
+	@ApiOperation(value = "启用/禁用供应商", notes = "作者：戴艺辉")
+	public JsonResult<Object> updateSupplierDataStatus(@RequestBody SupplierDataDto param) {
 		JsonResult<Object> result = new JsonResult<Object>();
-		String updateSign = param.getUpdateSign();
-		if (TextUtils.isEmpty(updateSign)) {
-			logger.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
-		}
-		// 启用和禁用供应商
-		if (updateSign.equals("updateSupplierStatus")) {
 			String id = String.valueOf(param.getId());
 			String supplierStatus = param.getSupplierStatus();
 			if (TextUtils.isEmptys(id, supplierStatus)) {
@@ -201,40 +198,61 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				logger.info("参数异常");
 				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 			}
-		}
-		// 审核
-		else if (updateSign.equals("reviewSupplier")) {
-			String id = String.valueOf(param.getId());
-			String reviewStatus = param.getReviewStatus();
-			String reviewRemarks = param.getReviewRemarks();
-			if (TextUtils.isEmptys(id, reviewStatus)) {
-				logger.info("参数为空");
-				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
-			}
-			SupplierData supplierData = new SupplierData();
-			supplierData.setId(Long.parseLong(id));
-			supplierData.setReviewStatus(reviewStatus);
-			supplierData.setReviewRemarks(reviewRemarks);
-			baseService.updateById(supplierData);
-			result.success("审核成功！");
-			return result;
-		} 
-		//删除
-		else if(updateSign.equals("removeSupplier")) {
-			String id = String.valueOf(param.getId());
-			SupplierData supplierData = new SupplierData();
-			supplierData.setId(Long.parseLong(id));
-			supplierData.setStatus(DBDictionaryEnumManager.invalid.getkey());
-			baseService.updateById(supplierData);
-			result.success("删除成功！");
-			return result;
-		}
-		else {
-			logger.info("参数异常");
-			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
-		}
 	}
 
+	
+	/**
+	 * 
+	* *删除供应商
+	*
+	* @param @param param
+	* @param @return
+	* @return
+	 */
+	@RequestMapping(value = "/deleteSupplierData", method = RequestMethod.POST)
+	@ApiOperation(value = "删除供应商", notes = "作者：戴艺辉")
+	public JsonResult<Object> deleteSupplierData(@RequestBody deleteSupplierData param) {
+		JsonResult<Object> result = new JsonResult<Object>();
+		if(param.getId()==null||param.getStatus()==null||param.getStatus()=="") {
+			logger.info("参数为空");
+			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+		}
+		String id = String.valueOf(param.getId());
+		SupplierData supplierData = new SupplierData();
+		supplierData.setId(Long.parseLong(id));
+		supplierData.setStatus(DBDictionaryEnumManager.invalid.getkey());
+		baseService.updateById(supplierData);
+		result.success("删除成功！");
+		return result;
+	}
+	/**
+	 * 
+	* *审核供应商
+	*
+	* @param @param param
+	* @param @return
+	* @return
+	 */
+	@RequestMapping(value = "/reviewSupplierData", method = RequestMethod.POST)
+	@ApiOperation(value = "审核供应商", notes = "作者：戴艺辉")
+	public JsonResult<Object> reviewSupplierData(@RequestBody reviewSupplierData param) {
+		JsonResult<Object> result = new JsonResult<Object>();
+		String id = String.valueOf(param.getId());
+		String reviewStatus = param.getReviewStatus();
+		String reviewRemarks = param.getReviewRemarks();
+		if (TextUtils.isEmptys(id, reviewStatus)) {
+			logger.info("参数为空");
+			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+		}
+		SupplierData supplierData = new SupplierData();
+		supplierData.setId(Long.parseLong(id));
+		supplierData.setReviewStatus(reviewStatus);
+		supplierData.setReviewRemarks(reviewRemarks);
+		baseService.updateById(supplierData);
+		result.success("审核成功！");
+		return result;
+	}
+	
 	/**
 	 * 
 	 * 1-查看供应商 2-修改时进入查看供应商
@@ -244,9 +262,9 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	 * @return
 	 */
 	@RequestMapping(value = "/getSupplierById", method = RequestMethod.GET)
-	@ApiOperation(value = "获取供应商基本信息", notes = "作者：戴艺辉")
-	public JsonResult<Object> getSupplierById(@RequestBody LookAndTakeInSupplierDataDto param) {
-		JsonResult<Object> result = new JsonResult<Object>();
+	@ApiOperation(value = "获取供应商基本信息(查看或修改进入时)", notes = "作者：戴艺辉")
+	public JsonResult<SupplierData> getSupplierById(@RequestBody LookAndTakeInSupplierDataDto param) {
+		JsonResult<SupplierData> result = new JsonResult<SupplierData>();
 		String id = String.valueOf(param.getId());
 		String getSign = param.getGetSign();
 		if (TextUtils.isEmptys(id, getSign)) {

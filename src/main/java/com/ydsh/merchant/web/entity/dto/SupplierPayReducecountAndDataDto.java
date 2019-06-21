@@ -1,43 +1,39 @@
 /**
- * @filename:SupplierData 2019-06-19 03:43:17
- * @project ydsh-saas-service-goods  V1.0
+ 					* @filename:SupplierPayAddcount 2019-06-19 11:55:28
+ * @project ydsh-saas-service-merchant  V1.0
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**   
  * <p>代码自动生成，请勿修改</p>
  * 
- * <p>说明： 供应基础信息表实体类</P>
+ * <p>说明： 供应商充值记录表实体类</P>
  * @version: V1.0
  * @author: 戴艺辉
  * 
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-public class SupplierData implements Serializable {
+public class SupplierPayReducecountAndDataDto implements Serializable {
 
-	private static final long serialVersionUID = 1560930197848L;
+	private static final long serialVersionUID = 1560916528851L;
 	
-	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(name = "id" , value = "主键ID")
-	private Long id;
+	
+	@ApiModelProperty(name = "sdId" , value = "供应商基本资料表的id")
+	private Long sdId;
 	@ApiModelProperty(name = "supplierName" , value = "供应商名称")
 	private String supplierName;
 	@ApiModelProperty(name = "sdNo" , value = "供应商编号")
@@ -80,26 +76,44 @@ public class SupplierData implements Serializable {
 	private String registerFile;
 	@ApiModelProperty(name = "certificate" , value = "授权书")
 	private String certificate;
-	@ApiModelProperty(name = "reviewId" , value = "审核人id")
-	private Long reviewId;
-	@ApiModelProperty(name = "reviewStatus" , value = "审批状态：0-未审核，1-审核通过，2-审核不通过")
-	private String reviewStatus;
-	@ApiModelProperty(name = "reviewRemarks" , value = "审批备注")
-	private String reviewRemarks;
-	@ApiModelProperty(name = "status" , value = "删除标志")
-	private String status;
+	@ApiModelProperty(name = "sd_review_id" , value = "供应商基本资料审核人id")
+	private Long sd_review_id;
+	@ApiModelProperty(name = "sd_review_status" , value = "供应商基本资料审批状态：0-未审核，1-审核通过，2-审核不通过")
+	private String sd_review_status;
+	@ApiModelProperty(name = "sd_review_remarks" , value = "供应商基本资料审批备注")
+	private String sd_review_remarks;
 	@ApiModelProperty(name = "remarks" , value = "备注")
 	private String remarks;
-	@ApiModelProperty(name = "createId" , value = "创建人ID")
-	private Long createId;
-	@ApiModelProperty(name = "updateId" , value = "修改人ID")
-	private Long updateId;
+	@ApiModelProperty(name = "bsprId" , value = "退款记录主键ID")
+	private Long bsprId;
+	@ApiModelProperty(name = "refundAmount" , value = "退款金额")
+	private Long refundAmount;
+	@ApiModelProperty(name = "refundWay" , value = "退款方式:1.银行转账，2.支付宝转账，3.微信转账，4.京东在线转账")
+	private String refundWay;
+	@ApiModelProperty(name = "fileId" , value = "文件编号")
+	private String fileId;
+	@ApiModelProperty(name = "tradeNum" , value = "交易编号")
+	private String tradeNum;
+	@ApiModelProperty(name = "tradeType" , value = "交易账本")
+	private String tradeType;
+	@ApiModelProperty(name = "file" , value = "上传文件")
+	private String file;
+	@ApiModelProperty(name = "spr_create_id" , value = "退款记录提交人")
+	private String spr_create_id;
+	@ApiModelProperty(name = "spr_review_id" , value = "退款记录审核人")
+	private String spr_review_id;
+	@ApiModelProperty(name = "spr_review_status" , value = "退款记录审批状态：0-未审核，1-审核通过，2-审核不通过")
+	private String spr_review_status;
+	@ApiModelProperty(name = "reviewRemarks" , value = "审批备注")
+	private String reviewRemarks;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(name = "createTime" , value = "创建时间（自动生成, MySQL 5.7+）")
-	private Date createTime;
+	@ApiModelProperty(name = "spr_review_time" , value = "退款记录审核时间")
+	private Date spr_review_time;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(name = "updateTime" , value = "修改时间（自动生成, MySQL 5.7+）")
-	private Date updateTime;
+	@ApiModelProperty(name = "spr_create_time" , value = "退款记录提交时间")
+	private Date spr_create_time;
+	@ApiModelProperty(name = "rechargeall" , value = "退款记录退款总额")
+	private Long rechargeall;
 }

@@ -82,8 +82,6 @@ public class SupplierPayAddcountAndDataDto implements Serializable {
 	private String sd_review_status;
 	@ApiModelProperty(name = "sd_review_remarks" , value = "供应商基本资料审批备注")
 	private String sd_review_remarks;
-	@ApiModelProperty(name = "status" , value = "删除标志")
-	private String status;
 	@ApiModelProperty(name = "remarks" , value = "备注")
 	private String remarks;
 	@ApiModelProperty(name = "spaId" , value = "充值表id")

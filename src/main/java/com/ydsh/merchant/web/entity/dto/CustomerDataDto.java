@@ -6,17 +6,19 @@
  */
 package com.ydsh.merchant.web.entity.dto;
 
+import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import java.util.Date;
-import org.springframework.format.annotation.DateTimeFormat;
-import java.io.Serializable;
 
 /**   
  * <p>代码自动生成，请勿修改</p>
@@ -132,7 +134,5 @@ public class CustomerDataDto implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "updateTime" , value = "修改时间（自动生成, MySQL 5.7+）")
 	private Date updateTime;
-	@ApiModelProperty(name = "updateSign" , value = "更新客户基本信息值为updateCustomer{}，更新客户状态值为updateCustomerStatus{字段id,customerStatus必填}， 审核客户状态值为reviewCustomer{字段id,reviewStatus,reviewBz必填}")
-	private String updateSign;
 	
 }

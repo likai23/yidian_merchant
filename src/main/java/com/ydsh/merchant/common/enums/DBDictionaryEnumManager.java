@@ -84,6 +84,14 @@ public enum DBDictionaryEnumManager {
 	account_book_3("3","返利充值"),
 	account_book_4("4","回款充值"),
 	
+	/**
+	 * 采购状态
+	 */
+	purchase_status_0("0","待采购"),
+	purchase_status_1("1","暂不采购"),
+	purchase_status_2("2","无需采购"),
+	purchase_status_3("3","待处理"),
+	
 	;
 
 	/** 枚举值 */

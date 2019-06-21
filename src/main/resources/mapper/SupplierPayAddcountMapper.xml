@@ -22,6 +22,7 @@
             bsd.supplier_status ,
             bsd.register_num ,
             bsd.legperson_type ,
+            bsd.legperson_id,
             bsd.business_file ,
             bsd.register_file ,
             bsd.certificate ,

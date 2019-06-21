@@ -6,9 +6,17 @@
  */
 package com.ydsh.merchant.web.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ydsh.merchant.web.entity.SupplierPayReducecount;
+import com.ydsh.merchant.web.entity.dto.SupplierPayReducecountAndDataDto;
+import com.ydsh.merchant.web.entity.dto.SupplierPayReducecountQueryDto;
 
 /**   
  * <p>自定义mapper写在这里</p>
@@ -21,4 +29,14 @@ import com.ydsh.merchant.web.entity.SupplierPayReducecount;
 @Mapper
 public interface SupplierPayReducecountDao extends BaseMapper<SupplierPayReducecount> {
 	
+	/**
+	 * 
+	* *退款记录表和供应商表连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  Page<SupplierPayReducecountAndDataDto> selectPayReducePage(IPage<Map<String, Object>> page,@Param("queryWrapper") SupplierPayReducecountQueryDto queryWrapper);
 }
