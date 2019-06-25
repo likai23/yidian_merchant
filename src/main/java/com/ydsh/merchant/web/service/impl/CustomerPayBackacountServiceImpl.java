@@ -6,11 +6,19 @@
  */
 package com.ydsh.merchant.web.service.impl;
 
-import com.ydsh.merchant.web.entity.CustomerPayBackacount;
-import com.ydsh.merchant.web.dao.CustomerPayBackacountDao;
-import com.ydsh.merchant.web.service.CustomerPayBackacountService;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ydsh.merchant.web.dao.CustomerPayBackacountDao;
+import com.ydsh.merchant.web.entity.CustomerPayBackacount;
+import com.ydsh.merchant.web.entity.dto.CustomerDataAndPayBackacount;
+import com.ydsh.merchant.web.entity.dto.CustomerPayAddcountQueryDto;
+import com.ydsh.merchant.web.service.CustomerPayBackacountService;
 
 /**   
  * <p>自定义serviceImpl写在这里</p>
@@ -23,4 +31,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 @Service
 public class CustomerPayBackacountServiceImpl  extends ServiceImpl<CustomerPayBackacountDao, CustomerPayBackacount> implements CustomerPayBackacountService  {
 	
+	
+	/**
+	 * 
+	* *回款记录表和客户表连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  public Page<CustomerDataAndPayBackacount> selectCustomerPayBackPageIndex(IPage<Map<String, Object>> page,@Param("queryWrapper") CustomerPayAddcountQueryDto queryWrapper){
+		  return baseMapper.selectCustomerPayBackPageIndex(page, queryWrapper);
+	  }
 }

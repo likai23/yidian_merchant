@@ -1,6 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ydsh.merchant.web.dao.CustomerPayReducecountDao">
+<mapper
+	namespace="com.ydsh.merchant.web.dao.CustomerPayReducecountDao">
 
-
+	<select id="selectCustomerPayReducePageIndex"
+		resultType="com.ydsh.merchant.web.entity.dto.CustomerDataAndPayReduceacount"
+		parameterType="com.ydsh.merchant.web.entity.dto.CustomerPayReduceacountQueryDto">
+		SELECT
+		cd.`id` ,
+		cd.cd_no,
+		cd.customer_name ,
+		cd.customer_category,
+		cd.customer_type ,
+		cd.customer_platform_ids ,
+		cd.customer_legperson,
+		cd.customer_dockperson,
+		cd.customer_forshort,
+		cd.customer_province,
+		cd.customer_city,
+		cd.customer_dockphone,
+		cd.customer_logo,
+		cd.customer_address,
+		cd.chain_if,
+		cd.sales_man_id,
+		cd.sale_main,
+		cd.phonechange_if,
+		cd.register_number,
+		cd.customer_person_type,
+		cd.cusperson_id,
+		cd.business_file,
+		cd.idcard_on,
+		cd.idcard_under,
+		cd.customerns_num,
+		cd.customerns_address,
+		cd.customer_phone,
+		cd.bank_open,
+		cd.bank_id,
+		cd.email,
+		cd.h5_address,
+		cd.channel_num,
+		cd.open_did,
+		cd.md5_password,
+		cd.des_password,
+		cd.platform_use_amount,
+		cd.platform_use,
+		cd.review_status AS cd_review_status,
+		cd.`review_id` AS cd_review_id,
+		cd.review_remarks AS cd_review_remarks,
+		cd.review_time AS cd_review_time,
+		cd.submit_id AS cd_submit_id,
+		cd.submit_time,
+		cd.customer_status,
+		cd.remarks AS cd_remarks,
+		cd.create_id AS cd_create_id,
+		cd.update_id AS cd_update_id,
+		cd.`status` AS cd_status,
+		cd.`update_time` AS cd_update_time,
+		cpr.id AS cprId,
+		CAST((cpr.refund_amount)/10000 AS DECIMAL(18,4)) as refundAmount,
+		cpr.refund_state,
+		cpr.refund_way,
+		cpr.file_id,
+		cpr.trade_num,
+		cpr.trade_book,
+		cpr.file,
+		cpr.review_id AS cpr_review_id,
+		cpr.review_status AS cpr_review_status,
+		cpr.review_remarks AS cpr_review_remarks,
+		cpr.review_time AS cpr_review_time,
+		cpr.refund_remarks AS cpr_refund_remarks,
+		cpr.create_id AS cpr_create_id,
+		cpr.update_id AS cpr_update_id,
+		cpr.status AS cpr_status,
+		cpr.create_time AS cpr_create_time,
+		cpr.update_time AS cpr_update_time
+		FROM
+		customer_data cd,customer_pay_reducecount cpr
+		<where>
+			cd.`id`=cpr.`cd_id`
+			<if test="queryWrapper.cdNo != null and queryWrapper.cdNo !=''">
+				and cd.cd_no like concat('%', #{queryWrapper.cdNo}, '%')
+			</if>
+			<if
+				test="queryWrapper.customerName != null and queryWrapper.customerName !=''">
+				and cd.customer_name like concat('%', #{queryWrapper.customerName},
+				'%')
+			</if>
+			<if
+				test="queryWrapper.creatimeBegin != null and queryWrapper.creatimeBegin !=''">
+				and cpb.`create_time` <![CDATA[ >= ]]>
+				#{queryWrapper.creatimeBegin}
+			</if>
+			<if
+				test="queryWrapper.creatimeEnd != null and queryWrapper.creatimeEnd !=''">
+				and cpb.`create_time` <![CDATA[ < ]]>
+				#{queryWrapper.creatimeEnd}
+			</if>
+			<if
+				test="queryWrapper.tradeNum != null and queryWrapper.tradeNum !=''">
+				and cpb.trade_num like concat('%', #{queryWrapper.tradeNum}, '%')
+			</if>
+			<if
+				test="queryWrapper.reviewStatus != null and queryWrapper.reviewStatus !=''">
+				and cpb.review_status = #{queryWrapper.reviewStatus}
+			</if>
+			<if
+				test="queryWrapper.saleMain != null and queryWrapper.saleMain !=''">
+				and cd.sale_main = #{queryWrapper.saleMain}
+			</if>
+		</where>
+	</select>
 </mapper>

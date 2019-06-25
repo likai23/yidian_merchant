@@ -6,8 +6,16 @@
  */
 package com.ydsh.merchant.web.service;
 
-import com.ydsh.merchant.web.entity.CustomerPayBackacount;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ydsh.merchant.web.entity.CustomerPayBackacount;
+import com.ydsh.merchant.web.entity.dto.CustomerDataAndPayBackacount;
+import com.ydsh.merchant.web.entity.dto.CustomerPayAddcountQueryDto;
 /**   
  * <p>自定义service写在这里</p>
  * 
@@ -17,5 +25,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 
  */
 public interface CustomerPayBackacountService extends IService<CustomerPayBackacount> {
-	
+	/**
+	 * 
+	* *回款记录表和客户表连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  Page<CustomerDataAndPayBackacount> selectCustomerPayBackPageIndex(IPage<Map<String, Object>> page,@Param("queryWrapper") CustomerPayAddcountQueryDto queryWrapper);
 }

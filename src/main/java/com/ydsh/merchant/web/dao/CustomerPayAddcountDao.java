@@ -6,9 +6,17 @@
  */
 package com.ydsh.merchant.web.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ydsh.merchant.web.entity.CustomerPayAddcount;
+import com.ydsh.merchant.web.entity.dto.CustomerDataAndPayAddcount;
+import com.ydsh.merchant.web.entity.dto.CustomerPayAddcountQueryDto;
 
 /**   
  * <p>自定义mapper写在这里</p>
@@ -21,4 +29,14 @@ import com.ydsh.merchant.web.entity.CustomerPayAddcount;
 @Mapper
 public interface CustomerPayAddcountDao extends BaseMapper<CustomerPayAddcount> {
 	
+	/**
+	 * 
+	* *充值记录表和客户表连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  Page<CustomerDataAndPayAddcount> selectCustomerPayAddPageIndex(IPage<Map<String, Object>> page,@Param("queryWrapper") CustomerPayAddcountQueryDto queryWrapper);
 }

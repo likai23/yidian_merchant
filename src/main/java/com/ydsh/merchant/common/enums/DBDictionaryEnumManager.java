@@ -76,6 +76,18 @@ public enum DBDictionaryEnumManager {
 	valid("1","有效"),
 	
 	/**
+	 * *商品有效期类型
+	 */
+	fixed_valid_day("0","固定有效期 "),
+	valid_day("1","有效天数 "),
+	
+	/**
+	 * *商品类型
+	 */
+	goods_card("0","卡券商品"),
+	package_card("1","套餐商品"),
+
+	/**
 	 * *充值账本
 	 */
 	account_book_0("0","余额充值"),
@@ -91,6 +103,14 @@ public enum DBDictionaryEnumManager {
 	purchase_status_1("1","暂不采购"),
 	purchase_status_2("2","无需采购"),
 	purchase_status_3("3","待处理"),
+	
+	/**
+	 * *结算方式：入库结算、核销结算、发放结算、订单结算
+	 */
+	settlement_method_0("0","入库结算"),
+	settlement_method_1("1","核销结算"),
+	settlement_method_2("2","发放结算"),
+	settlement_method_3("3","订单结算"),
 	
 	;
 

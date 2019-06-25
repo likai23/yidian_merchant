@@ -3,4 +3,109 @@
 <mapper namespace="com.ydsh.merchant.web.dao.CustomerPayAddcountDao">
 
 
+    <!-- 新增方法 -->
+      <!--分页获取获取所有数据，分页使用(实际项目中需要自己改造，自己需要几个条件则添加几个条件)-->
+    <select id="selectCustomerPayAddPageIndex" resultType="com.ydsh.merchant.web.entity.dto.CustomerDataAndPayAddcount" parameterType="com.ydsh.merchant.web.entity.dto.CustomerPayAddcountQueryDto" >
+           SELECT
+               cd.`id` ,
+               cd.cd_no,
+               cd.customer_name ,
+               cd.customer_category,
+               cd.customer_type ,
+               cd.customer_platform_ids ,
+               cd.customer_legperson,
+               cd.customer_dockperson,
+               cd.customer_forshort,
+               cd.customer_province,
+               cd.customer_city,
+               cd.customer_dockphone,
+               cd.customer_logo,
+               cd.customer_address,
+               cd.chain_if,
+               cd.sales_man_id,
+               cd.sale_main,
+               cd.phonechange_if,
+               cd.register_number,
+               cd.customer_person_type,
+               cd.cusperson_id,
+               cd.business_file,
+               cd.idcard_on,
+               cd.idcard_under,
+               cd.customerns_num,
+               cd.customerns_address,
+               cd.customer_phone,
+               cd.bank_open,
+               cd.bank_id,
+               cd.email,
+               cd.h5_address,
+               cd.channel_num,
+               cd.open_did,
+               cd.md5_password,
+               cd.des_password,
+               cd.platform_use_amount,
+               cd.platform_use,
+               cd.review_status AS cd_review_status,
+               cd.`review_id` AS cd_review_id,
+               cd.review_remarks AS cd_review_remarks,
+               cd.review_time AS cd_review_time,
+               cd.submit_id AS cd_submit_id,
+               cd.submit_time,
+               cd.customer_status,
+               cd.remarks AS cd_remarks,
+               cd.create_id AS cd_create_id,
+               cd.update_id AS cd_update_id,
+               cd.`status` AS cd_status,
+               cd.`update_time` as cd_update_time,                         
+               cpa.id AS cpaId,
+               cpa.account_num ,
+               cpa.trade_num ,
+               cpa.account_book ,
+               CAST((cpa.recharge_amount)/10000 AS DECIMAL(18,4)) AS rechargeAmount , 
+               cpa.recharge_way ,
+               cpa.recharge_bz ,
+               cpa.account_file ,
+               cpa.review_id AS cpa_review_id,
+               cpa.review_status AS cpa_review_status,
+               cpa.review_remarks AS cpa_review_remarks,
+               cpa.review_time AS cpa_review_time,
+               cpa.money_ontime ,
+               cpa.remarks  AS cpa_remarks,
+               cpa.create_id AS cpa_create_id,
+               cpa.update_id AS cpa_update_id,
+               cpa.status AS cpa_status,
+               cpa.create_time AS cpa_create_time,
+               cpa.update_time AS cpa_update_time
+          FROM
+               customer_data cd,customer_pay_addcount cpa
+          <where>
+               cd.`id`=cpa.`cd_id`
+                <if test="queryWrapper.cdNo != null and queryWrapper.cdNo !=''">
+                   and cd.cd_no like concat('%', #{queryWrapper.cdNo}, '%')
+                </if>
+                <if test="queryWrapper.customerName != null and queryWrapper.customerName !=''">
+                   and cd.customer_name like concat('%', #{queryWrapper.customerName}, '%')
+               </if>
+                <if test="queryWrapper.accountBook != null and queryWrapper.accountBook !=''">
+                   and cpa.account_book = #{queryWrapper.accountBook}
+               </if>
+                    <if test="queryWrapper.creatimeBegin != null and queryWrapper.creatimeBegin !=''">
+                   and  cpa.`create_time` <![CDATA[ >= ]]> #{queryWrapper.creatimeBegin}
+                </if>
+                <if test="queryWrapper.creatimeEnd != null and queryWrapper.creatimeEnd !=''">
+                   and  cpa.`create_time` <![CDATA[ < ]]> #{queryWrapper.creatimeEnd}
+               </if>
+                <if test="queryWrapper.tradeNum != null and queryWrapper.tradeNum !=''">
+                   and  cpa.trade_num like concat('%', #{queryWrapper.tradeNum}, '%')
+               </if>
+                <if test="queryWrapper.reviewStatus != null and queryWrapper.reviewStatus !=''">
+                   and  cpa.review_status = #{queryWrapper.reviewStatus}
+               </if>
+                <if test="queryWrapper.saleMain != null and queryWrapper.saleMain !=''">
+                   and  cd.sale_main = #{queryWrapper.saleMain}
+               </if>
+               
+          </where>
+              
+     </select>
+  
 </mapper>

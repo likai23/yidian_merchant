@@ -2,5 +2,106 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ydsh.merchant.web.dao.CustomerPayBackacountDao">
 
-
+    <select id="selectCustomerPayBackPageIndex"
+     resultType="com.ydsh.merchant.web.entity.dto.CustomerDataAndPayBackacount" 
+     parameterType="com.ydsh.merchant.web.entity.dto.CustomerPayAddcountQueryDto" >
+               SELECT 
+                 cd.`id` ,
+                 cd.cd_no,
+                 cd.customer_name ,
+                 cd.customer_category,
+                 cd.customer_type ,
+                 cd.customer_platform_ids ,
+                 cd.customer_legperson,
+                 cd.customer_dockperson,
+                 cd.customer_forshort,
+                 cd.customer_province,
+                 cd.customer_dockphone,
+                 cd.customer_logo,
+                 cd.customer_address,
+                 cd.chain_if,
+                 cd.sales_man_id,
+                 cd.sale_main,
+                 cd.phonechange_if,
+                 cd.register_number,
+                 cd.customer_person_type,
+                 cd.cusperson_id,
+                 cd.business_file,
+                 cd.idcard_on,
+                 cd.idcard_under,
+                 cd.customerns_num,
+                 cd.customerns_address,
+                 cd.customer_phone,
+                 cd.bank_open,
+                 cd.bank_id,
+                 cd.email,
+                 cd.h5_address,
+                 cd.channel_num,
+                 cd.open_did,
+                 cd.md5_password,
+                 cd.des_password,
+                 cd.platform_use_amount,
+                 cd.platform_use,
+                 cd.review_status AS cd_review_status,
+                 cd.`review_id` AS cd_review_id,
+                 cd.review_remarks AS cd_review_remarks,
+                 cd.review_time AS cd_review_time,
+                 cd.submit_id AS cd_submit_id,
+                 cd.submit_time,
+                 cd.customer_status,
+                 cd.remarks AS cd_remarks,
+                 cd.create_id AS cd_create_id,
+                 cd.update_id AS cd_update_id,
+                 cd.`status` AS cd_status,
+                 cd.`update_time` AS cd_update_time,
+                 cpb.id AS cpbId,
+                 cpb.account_num,
+                 cpb.trade_num,
+                 cpb.account_book,
+                 CAST((cpb.recharge)/10000 AS DECIMAL(18,4)) AS recharge,
+                 cpb.recharge_way,
+                 cpb.recharge_bz,
+                 cpb.account_file,
+                 cpb.money_ontime,
+                 cpb.review_id AS cpb_review_id,
+                 cpb.review_status AS cpb_review_status,
+                 cpb.review_remarks AS cpb_review_remarks,
+                 cpb.review_time AS cpb_review_time,
+                 cpb.remarks AS cpb_remarks,             
+                 cpb.create_id AS cpb_create_id,
+                 cpb.update_id AS cpb_update_id,
+                 cpb.status AS cpb_status,
+                 cpb.create_time AS cpb_create_time,
+                 cpb.update_time AS cpb_update_time
+               FROM
+                  customer_data cd,customer_pay_backacount cpb
+                 <where>
+               cd.`id`=cpb.`cd_id`
+                <if test="queryWrapper.cdNo != null and queryWrapper.cdNo !=''">
+                   and cd.cd_no like concat('%', #{queryWrapper.cdNo}, '%')
+                </if>
+                <if test="queryWrapper.customerName != null and queryWrapper.customerName !=''">
+                   and cd.customer_name like concat('%', #{queryWrapper.customerName}, '%')
+               </if>
+                <if test="queryWrapper.accountBook != null and queryWrapper.accountBook !=''">
+                   and cpb.account_book = #{queryWrapper.accountBook}
+               </if>
+                    <if test="queryWrapper.creatimeBegin != null and queryWrapper.creatimeBegin !=''">
+                   and  cpb.`create_time` <![CDATA[ >= ]]> #{queryWrapper.creatimeBegin}
+                </if>
+                <if test="queryWrapper.creatimeEnd != null and queryWrapper.creatimeEnd !=''">
+                   and  cpb.`create_time` <![CDATA[ < ]]> #{queryWrapper.creatimeEnd}
+               </if>
+                <if test="queryWrapper.tradeNum != null and queryWrapper.tradeNum !=''">
+                   and  cpb.trade_num like concat('%', #{queryWrapper.tradeNum}, '%')
+               </if>
+                <if test="queryWrapper.reviewStatus != null and queryWrapper.reviewStatus !=''">
+                   and  cpb.review_status = #{queryWrapper.reviewStatus}
+               </if>
+                <if test="queryWrapper.saleMain != null and queryWrapper.saleMain !=''">
+                   and  cd.sale_main = #{queryWrapper.saleMain}
+               </if>
+          </where>
+              
+    </select>
 </mapper>
