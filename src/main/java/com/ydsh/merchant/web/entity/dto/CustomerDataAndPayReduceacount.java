@@ -181,8 +181,4 @@ public class CustomerDataAndPayReduceacount implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "cprCreatetime" , value = "退款记录创建时间（自动生成, MySQL 5.7+）")
 	private Date cprCreatetime;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(name = "cprUpdatetime" , value = "退款记录修改时间（自动生成, MySQL 5.7+）")
-	private Date cprUpdatetime;
 }

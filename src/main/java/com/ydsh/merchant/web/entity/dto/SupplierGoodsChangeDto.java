@@ -48,7 +48,7 @@ public class SupplierGoodsChangeDto implements Serializable {
 	@ApiModelProperty(name = "supplyPrice" , value = "供应价/采购价")
 	private String supplyPrice;
 	@ApiModelProperty(name = "taxRate" , value = "税率")
-	private Integer taxRate;
+	private String taxRate;
 	@ApiModelProperty(name = "invoiceType" , value = "发票类型:1.普通发票，2.专用发票，3.无")
 	private String invoiceType;
 	@ApiModelProperty(name = "payMethod" , value = "结算方式：1.入库结算，2.核销结算，3.发放结算")

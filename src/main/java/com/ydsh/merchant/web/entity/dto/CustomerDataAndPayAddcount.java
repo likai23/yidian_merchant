@@ -185,8 +185,4 @@ public class CustomerDataAndPayAddcount implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "cpaCreatetime" , value = "充值记录创建时间（自动生成, MySQL 5.7+）")
 	private Date cpaCreatetime;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(name = "cpaUpdatetime" , value = "充值记录修改时间（自动生成, MySQL 5.7+）")
-	private Date cpaUpdatetime;
 }

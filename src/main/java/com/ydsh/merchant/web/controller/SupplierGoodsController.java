@@ -9,8 +9,6 @@ package com.ydsh.merchant.web.controller;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ydsh.generator.common.JsonResult;
 import com.ydsh.merchant.common.enums.ErrorCode;
 import com.ydsh.merchant.common.exception.SystemException;
+import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplierGoods;
 import com.ydsh.merchant.web.entity.dto.SupplierGoodsChangeDto;
@@ -43,7 +42,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SupplierGoodsController extends AbstractController<SupplierGoodsService,SupplierGoods>{
 	
-	private static Logger logger = LoggerFactory.getLogger(CustomerDataController.class);
 
 	
 	/**
@@ -62,8 +60,11 @@ public class SupplierGoodsController extends AbstractController<SupplierGoodsSer
 		// 验证是否为空
 		List<SupplierGoodsChangeDto> supplierGoodsList=param.getSupplierGoodsList();
 		for (SupplierGoodsChangeDto supplierGoods : supplierGoodsList) {
-			if(supplierGoods.getSupplyPrice()==null||supplierGoods.getTaxRate()==null||supplierGoods.getPayMethod()==null) {
-				logger.info("参数为空");
+			String supplyPrice=supplierGoods.getSupplyPrice();
+			String taxRate=supplierGoods.getTaxRate();
+			String payMethod=supplierGoods.getPayMethod();
+			if(TextUtils.isEmptys(supplyPrice,taxRate,payMethod)) {
+				log.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 			}
  		}

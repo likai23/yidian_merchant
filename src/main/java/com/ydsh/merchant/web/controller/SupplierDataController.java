@@ -6,10 +6,6 @@
  */
 package com.ydsh.merchant.web.controller;
 
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,7 +53,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SupplierDataController extends AbstractController<SupplierDataService, SupplierData> {
 
-	private static Logger logger = LoggerFactory.getLogger(SupplierDataController.class);
 
 	/**
 	 * @explain 添加
@@ -70,7 +65,6 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	@ApiOperation(value = "添加", notes = "作者：戴艺辉")
 	public JsonResult<Object> saveSupplier(@RequestBody SupplierData entity) {
 		String supplierName = entity.getSupplierName();
-
 		String trade = entity.getTrade();
 		String type = entity.getType();
 		String legperson = entity.getLegperson();
@@ -82,7 +76,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String logo = entity.getLogo();
 		if (TextUtils.isEmptys(supplierName, trade, type, legperson, reqperson, province, city, reqPhone, forshort,
 				logo)) {
-			logger.info("参数为空");
+			log.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		// 供应商编码
@@ -126,7 +120,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String logo = entity.getLogo();
 		if (TextUtils.isEmptys(sdNo, supplierName, trade, type, legperson, reqperson, province, city, reqPhone,
 				forshort, logo)) {
-			logger.info("参数为空");
+			log.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		if (null != entity) {
@@ -159,18 +153,18 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			String id = String.valueOf(param.getId());
 			String supplierStatus = param.getSupplierStatus();
 			if (TextUtils.isEmptys(id, supplierStatus)) {
-				logger.info("参数为空");
+				log.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 			}
 			SupplierData supplierDataCheck = baseService.getById(Long.parseLong(id));
 			if (supplierDataCheck == null) {
-				logger.info("参数异常");
+				log.info("参数异常");
 				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 			}
 			// 启用
 			if (supplierStatus.equals(DBDictionaryEnumManager.user_status_0.getkey())) {
 				if (!(supplierDataCheck.getSupplierStatus().equals(DBDictionaryEnumManager.user_status_1.getkey()))) {
-					logger.info("不是禁用状态，不能启用");
+					log.info("不是禁用状态，不能启用");
 					result.error("不是禁用状态，不能启用！");
 					return result;
 				}
@@ -184,7 +178,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			// 禁用
 			else if (supplierStatus.equals(DBDictionaryEnumManager.user_status_1.getkey())) {
 				if (!(supplierDataCheck.getSupplierStatus().equals(DBDictionaryEnumManager.user_status_0.getkey()))) {
-					logger.info("不是启用状态");
+					log.info("不是启用状态");
 					result.error("不是启用状态，不能禁用！");
 					return result;
 				}
@@ -195,7 +189,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				result.success("更新状态成功！");
 				return result;
 			} else {
-				logger.info("参数异常");
+				log.info("参数异常");
 				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 			}
 	}
@@ -214,7 +208,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	public JsonResult<Object> deleteSupplierData(@RequestBody deleteSupplierData param) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		if(param.getId()==null||param.getStatus()==null||param.getStatus()=="") {
-			logger.info("参数为空");
+			log.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		String id = String.valueOf(param.getId());
@@ -225,8 +219,8 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		result.success("删除成功！");
 		return result;
 	}
-	/**
-	 * 
+   /**
+	* 
 	* *审核供应商
 	*
 	* @param @param param
@@ -241,7 +235,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String reviewStatus = param.getReviewStatus();
 		String reviewRemarks = param.getReviewRemarks();
 		if (TextUtils.isEmptys(id, reviewStatus)) {
-			logger.info("参数为空");
+			log.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		SupplierData supplierData = new SupplierData();
@@ -268,7 +262,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String id = String.valueOf(param.getId());
 		String getSign = param.getGetSign();
 		if (TextUtils.isEmptys(id, getSign)) {
-			logger.info("参数为空");
+			log.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		// 查看
@@ -292,7 +286,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				return result;
 			}
 		}else {
-			logger.info("参数异常");
+			log.info("参数异常");
 			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
 		}
 	}
@@ -306,18 +300,18 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 	 */
     @RequestMapping(value = "/getSupplierPages",method = RequestMethod.GET)
 	@ApiOperation(value = "分页查询", notes = "分页查询返回[IPage<T>],作者：戴艺辉")
-	public JsonResult<IPage<Map<String,Object>>> getSupplierPages(PageParam<SupplierData> param){
-		JsonResult<IPage<Map<String,Object>>> returnPage=new JsonResult<IPage<Map<String,Object>>>();
+	public JsonResult<IPage<SupplierData>> getSupplierPages(PageParam<SupplierData> param){
+		JsonResult<IPage<SupplierData>> returnPage=new JsonResult<IPage<SupplierData>>();
 		Page<SupplierData> page=new Page<SupplierData>(param.getPageNum(),param.getPageSize());
 		if(param.getPageSize()>500) {
-			logger.error("分页最大限制500，" +param);
+			log.error("分页最大限制500，" +param);
 			returnPage.error("分页最大限制500");
 			return returnPage;
 		}
 		QueryWrapper<SupplierData> queryWrapper =new QueryWrapper<SupplierData>();
 		queryWrapper.setEntity(param.getParam());
 		//分页数据
-		IPage<Map<String,Object>> pageData=baseService.pageMaps(page, queryWrapper);
+		IPage<SupplierData> pageData=baseService.page(page, queryWrapper);
 		returnPage.success(pageData);
 		return returnPage;
 	}

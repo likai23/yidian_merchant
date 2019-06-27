@@ -4,15 +4,13 @@
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -31,17 +29,14 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CustomerPayReducecount implements Serializable {
+public class CustomerPayReducecountDto implements Serializable {
 
 	private static final long serialVersionUID = 1560930197773L;
 	
-	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(name = "id" , value = "主键ID")
-	private Long id;
 	@ApiModelProperty(name = "cdId" , value = "客户基本资料id")
 	private Long cdId;
 	@ApiModelProperty(name = "refundAmount" , value = "退款金额")
-	private Long refundAmount;
+	private String refundAmount;
 	@ApiModelProperty(name = "refundState" , value = "退款状态")
 	private String refundState;
 	@ApiModelProperty(name = "refundWay" , value = "退款方式:1.银行转账，2.支付宝转账，3.微信转账，4.京东在线转账")
@@ -54,21 +49,21 @@ public class CustomerPayReducecount implements Serializable {
 	private String tradeBook;
 	@ApiModelProperty(name = "file" , value = "文件")
 	private String file;
-	@ApiModelProperty(name = "reviewId" , value = "审核人id")
+//	@ApiModelProperty(name = "reviewId" , value = "审核人id")
 	private Long reviewId;
-	@ApiModelProperty(name = "reviewStatus" , value = "是否审核通过：0-待审核，1-审核通过，2-审核不通过")
+//	@ApiModelProperty(name = "reviewStatus" , value = "是否审核通过：0-待审核，1-审核通过，2-审核不通过")
 	private String reviewStatus;
-	@ApiModelProperty(name = "reviewRemarks" , value = "审核意见")
+//	@ApiModelProperty(name = "reviewRemarks" , value = "审核意见")
 	private String reviewRemarks;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(name = "reviewTime" , value = "审核时间")
+//	@ApiModelProperty(name = "reviewTime" , value = "审核时间")
 	private Date reviewTime;
 	@ApiModelProperty(name = "refundRemarks" , value = "退款备注")
 	private String refundRemarks;
-	@ApiModelProperty(name = "createId" , value = "创建人ID")
+//	@ApiModelProperty(name = "createId" , value = "创建人ID")
 	private Long createId;
-	@ApiModelProperty(name = "updateId" , value = "修改人ID")
+//	@ApiModelProperty(name = "updateId" , value = "修改人ID")
 	private Long updateId;
 	@ApiModelProperty(name = "status" , value = "数据状态（1：正常[√]；0：删除）")
 	private Integer status;

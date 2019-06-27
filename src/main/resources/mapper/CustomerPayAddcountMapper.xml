@@ -74,7 +74,6 @@
                cpa.update_id AS cpa_update_id,
                cpa.status AS cpa_status,
                cpa.create_time AS cpa_create_time,
-               cpa.update_time AS cpa_update_time
           FROM
                customer_data cd,customer_pay_addcount cpa
           <where>

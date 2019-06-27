@@ -185,8 +185,4 @@ public class CustomerDataAndPayBackacount implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "cpbCreatetime" , value = "回款记录创建时间（自动生成, MySQL 5.6+）")
 	private Date cpbCreatetime;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-	@ApiModelProperty(name = "cpbUpdatetime" , value = "回款记录修改时间（自动生成, MySQL 5.7+）")
-	private Date cpbUpdatetime;
 }

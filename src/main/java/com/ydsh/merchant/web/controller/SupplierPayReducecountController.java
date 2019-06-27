@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +52,6 @@ public class SupplierPayReducecountController extends AbstractController<Supplie
 	
 	private static Timestamp now = new Timestamp(System.currentTimeMillis());
 
-	private static Logger logger = LoggerFactory.getLogger(CustomerDataController.class);
 	
 	
 	/**
@@ -98,7 +95,7 @@ public class SupplierPayReducecountController extends AbstractController<Supplie
 			String refoundWay=entity.getRefundWay() ;
 			String file=entity.getFile() ;
 			if (TextUtils.isEmptys(refoundAmount,refoundWay,file)) {
-				logger.info("参数为空");
+				log.info("参数为空");
 				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 			}
 			SupplierPayReducecount supplierPayReducecount = new SupplierPayReducecount();
@@ -132,7 +129,7 @@ public class SupplierPayReducecountController extends AbstractController<Supplie
 		String id=entity.getId();
 		String reviewStatus=entity.getReviewStatus();
 		if (TextUtils.isEmptys(id, reviewStatus)) {
-			logger.info("参数为空");
+			log.info("参数为空");
 			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
 		}
 		SupplierPayReducecount supplierPayReducecount = baseService.getById(id);
@@ -144,7 +141,7 @@ public class SupplierPayReducecountController extends AbstractController<Supplie
 			result.success("审核成功！");
 			return result;
 		} else {
-			logger.info("不是待审核状态不允许审核！");
+			log.info("不是待审核状态不允许审核！");
 			result.error("不是待审核状态不允许审核！");
 			return result;
 		}
