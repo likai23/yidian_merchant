@@ -6,9 +6,16 @@
  */
 package com.ydsh.merchant.web.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ydsh.merchant.web.entity.SupplierGoods;
+import com.ydsh.merchant.web.entity.dto.SupplierGoodsAndDataDto;
 
 /**   
  * <p>自定义mapper写在这里</p>
@@ -20,5 +27,14 @@ import com.ydsh.merchant.web.entity.SupplierGoods;
  */
 @Mapper
 public interface SupplierGoodsDao extends BaseMapper<SupplierGoods> {
-	
+	/**
+	 * 
+	* * 供应商和供应价连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  Page<SupplierGoodsAndDataDto> selectSupplierGoodsPages(IPage<Map<String, Object>> page,@Param("queryWrapper") Map<String,Object> queryWrapper);
 }

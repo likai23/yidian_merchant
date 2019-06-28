@@ -1,22 +1,26 @@
 /**
- * @filename:SupplyPriceAdjustment 2019-06-28 03:07:11
+ * @filename:SupplyPriceAdjustment 2019-06-28 02:42:41
  * @project ydsh-saas-service-goods  V1.0
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ydsh.merchant.web.entity.SupplyPriceAdjustmentDetail;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import java.util.Date;
-import org.springframework.format.annotation.DateTimeFormat;
-import java.io.Serializable;
 
 /**   
  * <p>代码自动生成，请勿修改</p>
@@ -29,9 +33,9 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SupplyPriceAdjustment implements Serializable {
+public class saveSupplyPriceAdjustmentAndDetailsTwo implements Serializable {
 
-	private static final long serialVersionUID = 1561705631441L;
+	private static final long serialVersionUID = 1561704161798L;
 	
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(name = "id" , value = "主键ID")
@@ -58,4 +62,6 @@ public class SupplyPriceAdjustment implements Serializable {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	@ApiModelProperty(name = "reviewTime" , value = "审核时间")
 	private Date reviewTime;
+	@ApiModelProperty(name = "supplyPriceAdjustmentDetailList" , value = "供应价调整子表明细list")
+	private List<SupplyPriceAdjustmentDetail> supplyPriceAdjustmentDetailList;
 }

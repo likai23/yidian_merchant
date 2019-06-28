@@ -1,18 +1,16 @@
 /**
- * @filename:SupplierGoods 2019-06-28 02:39:32
+ * @filename:SupplierGoods 2019-06-19 03:43:17
  * @project ydsh-saas-service-goods  V1.0
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -31,15 +29,23 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SupplierGoods implements Serializable {
+public class SupplierGoodsAndDataDto implements Serializable {
 
-	private static final long serialVersionUID = 1561703972394L;
-	
-	@TableId(value = "id", type = IdType.AUTO)
-	@ApiModelProperty(name = "id" , value = "主键ID")
-	private Long id;
+	private static final long serialVersionUID = 1560930197926L;
+	/**
+	 * 供应商资料
+	 */
 	@ApiModelProperty(name = "sdId" , value = "供应商基本资料表的id")
 	private Long sdId;
+	@ApiModelProperty(name = "sdNo" , value = "供应商编码")
+	private String sdNo;
+	@ApiModelProperty(name = "supplierName" , value = "供应商名称")
+	private String supplierName;
+	/**
+	 * 供应价
+	 */
+	@ApiModelProperty(name = "sgId" , value = "供应价主键ID")
+	private Long sgId;
 	@ApiModelProperty(name = "gsId" , value = "sku表id")
 	private Long gsId;
 	@ApiModelProperty(name = "goodsType" , value = "商品类型：1.卡券商品，2.充值商品")

@@ -4,7 +4,7 @@
  * Copyright(c) 2020 戴艺辉 Co. Ltd. 
  * All right reserved. 
  */
-package com.ydsh.merchant.web.entity;
+package com.ydsh.merchant.web.entity.dto;
 
 import java.io.Serializable;
 
@@ -27,7 +27,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SupplyPriceAdjustmentDetail implements Serializable {
+public class SupplyPriceAdjustmentDetailDto implements Serializable {
 
 	private static final long serialVersionUID = 1561705303722L;
 	
@@ -45,7 +45,7 @@ public class SupplyPriceAdjustmentDetail implements Serializable {
 	@ApiModelProperty(name = "gcsGoodsType" , value = "商品类型")
 	private String gcsGoodsType;
 	@ApiModelProperty(name = "gcsOldPurchasePrice" , value = "当前供应价")
-	private Long gcsOldPurchasePrice;
+	private String gcsOldPurchasePrice;
 	@ApiModelProperty(name = "gcsNewPurchasePrice" , value = "调整供应价")
-	private Long gcsNewPurchasePrice;
+	private String gcsNewPurchasePrice;
 }

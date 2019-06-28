@@ -7,6 +7,14 @@
 package com.ydsh.merchant.web.service;
 
 import com.ydsh.merchant.web.entity.SupplierGoods;
+import com.ydsh.merchant.web.entity.dto.SupplierGoodsAndDataDto;
+
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 /**   
  * <p>自定义service写在这里</p>
@@ -17,5 +25,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 
  */
 public interface SupplierGoodsService extends IService<SupplierGoods> {
-	
+	/**
+	 * 
+	* * 供应商和供应价连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  Page<SupplierGoodsAndDataDto> selectSupplierGoodsPages(IPage<Map<String, Object>> page,@Param("queryWrapper") Map<String,Object> queryWrapper);
 }

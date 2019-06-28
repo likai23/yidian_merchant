@@ -7,9 +7,17 @@
 package com.ydsh.merchant.web.service.impl;
 
 import com.ydsh.merchant.web.entity.SupplierGoods;
+import com.ydsh.merchant.web.entity.dto.SupplierGoodsAndDataDto;
 import com.ydsh.merchant.web.dao.SupplierGoodsDao;
 import com.ydsh.merchant.web.service.SupplierGoodsService;
+
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 /**   
@@ -22,5 +30,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class SupplierGoodsServiceImpl  extends ServiceImpl<SupplierGoodsDao, SupplierGoods> implements SupplierGoodsService  {
-	
+	/**
+	 * 
+	* * 供应商和供应价连表查询
+	*
+	* @param @param page
+	* @param @param queryWrapper
+	* @param @return
+	* @return
+	 */
+	  public Page<SupplierGoodsAndDataDto> selectSupplierGoodsPages(IPage<Map<String, Object>> page,@Param("queryWrapper") Map<String,Object> queryWrapper){
+		  return baseMapper.selectSupplierGoodsPages(page, queryWrapper);
+	  }
 }

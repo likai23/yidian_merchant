@@ -2,5 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ydsh.merchant.web.dao.SupplierGoodsDao">
 
-
+    <select id="selectSupplierGoodsPages" resultType="com.ydsh.merchant.web.entity.dto.SupplierGoodsAndDataDto"
+         parameterType="java.util.Map" >
+     SELECT
+       sd.`id` AS sdId,
+       sd.`sd_no`,
+       sd.`supplier_name`,
+       sg.`id` AS sgId,
+       sg.`gs_id`,
+       sg.`goods_type`,
+       sg.`if_delay`,
+       sg.`purchase_time`,
+       sg.`supply_price`,
+       sg.`tax_rate`,
+       sg.`invoice_type`,
+       sg.`pay_method`,
+       sg.`shopmess_type`,
+       sg.`shop_message`,
+       sg.`status`,
+       sg.`remarks`,
+       sg.`create_id`,
+       sg.`update_id`,
+       sg.`create_time`,
+       sg.`update_time`,
+     FROM 
+      supplier_data sd,supplier_goods sg
+     <where>
+      sd.id=sg.`sd_id`
+     </where>
+  </select>
 </mapper>
