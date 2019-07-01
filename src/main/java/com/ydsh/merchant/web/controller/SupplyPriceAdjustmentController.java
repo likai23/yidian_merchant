@@ -139,7 +139,7 @@ public class SupplyPriceAdjustmentController extends AbstractController<SupplyPr
 		List<saveSupplyPriceAdjustmentAndDetailsTwo> returnList=new ArrayList<saveSupplyPriceAdjustmentAndDetailsTwo>();
 		queryWrapper.eq("id", param.getId());
 		List<SupplyPriceAdjustment> supplyPriceAdjustmentList=baseService.list(queryWrapper);
-		for(SupplyPriceAdjustment s:supplyPriceAdjustmentList) {
+		for(SupplyPriceAdjustment s:supplyPriceAdjustmentList) { // 100
 			saveSupplyPriceAdjustmentAndDetailsTwo  entity =new saveSupplyPriceAdjustmentAndDetailsTwo();
 			BeanUtils.copyProperties(s, entity);
 			QueryWrapper<SupplyPriceAdjustmentDetail> queryWrapper1 = new QueryWrapper<SupplyPriceAdjustmentDetail>(); 
