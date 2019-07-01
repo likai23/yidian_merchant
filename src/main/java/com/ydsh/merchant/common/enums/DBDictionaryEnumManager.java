@@ -27,8 +27,8 @@ public enum DBDictionaryEnumManager {
 	 * 1-是 
 	 * 2-否
 	 */
-	yes("y_0","是"),
-	no("y_1","否"),
+	yes("y","是"),
+	no("n","否"),
 	
 	/**
 	 * 账单明细
