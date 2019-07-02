@@ -22,9 +22,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ydsh.generator.common.JsonResult;
 import com.ydsh.generator.common.PageParam;
-import com.ydsh.merchant.common.enums.DBDictionaryEnumManager;
 import com.ydsh.merchant.common.enums.ErrorCode;
-import com.ydsh.merchant.common.exception.SystemException;
+import com.ydsh.merchant.common.exception.BizException;
 import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplierGoods;
@@ -94,7 +93,7 @@ public class SupplierGoodsController extends AbstractController<SupplierGoodsSer
 			String payMethod=supplierGoods.getPayMethod();
 			if(TextUtils.isEmptys(supplyPrice,taxRate,payMethod)) {
 				log.info("参数为空");
-				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+				throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 			}
  		}
 		for (SupplierGoodsChangeDto supplierGoodsChange : supplierGoodsList) {
@@ -116,4 +115,6 @@ public class SupplierGoodsController extends AbstractController<SupplierGoodsSer
 	
 	
 	
+
+
 }

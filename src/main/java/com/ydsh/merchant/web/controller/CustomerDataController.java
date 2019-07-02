@@ -23,7 +23,7 @@ import com.ydsh.merchant.common.db.DBKeyGenerator;
 import com.ydsh.merchant.common.enums.DBBusinessKeyTypeEnums;
 import com.ydsh.merchant.common.enums.DBDictionaryEnumManager;
 import com.ydsh.merchant.common.enums.ErrorCode;
-import com.ydsh.merchant.common.exception.SystemException;
+import com.ydsh.merchant.common.exception.BizException;
 import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.CustomerData;
@@ -96,7 +96,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 				customerDockperson, customerProvince, customerCity, customerDockphone, salesManId, saleMain,
 				phonechangeIf, registerNumber, customerPersonType, businessFile, cuspersonId, idcardOn, idcardUnder)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		JsonResult<Object> result = new JsonResult<Object>();
 		if (null != entity) {
@@ -153,13 +153,13 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 				saleMain, phonechangeIf, registerNumber, customerPersonType, businessFile, cuspersonId, idcardOn,
 				idcardUnder)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 
 		CustomerData customerDataCheck = baseService.getById(id);
 		if (customerDataCheck == null) {
 			log.info("参数异常");
-			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+			throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 		}
 		String reviewStatus = customerDataCheck.getReviewStatus();
 		String review_0 = DBDictionaryEnumManager.review_0.getkey();
@@ -221,12 +221,12 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 		String status = param.getCustomerStatus();
 		if (TextUtils.isEmptys(id, status)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		CustomerData customerDataCheck = baseService.getById(Long.parseLong(id));
 		if (customerDataCheck == null) {
 			log.info("参数异常");
-			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+			throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 		}
 		// 启用
 		if (status.equals(DBDictionaryEnumManager.user_status_0.getkey())) {
@@ -263,7 +263,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 			result.setMessage("更新状态成功！");
 		} else {
 			log.info("参数异常");
-			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+			throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 		}
 		return result;
 	}
@@ -285,12 +285,12 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 		String reviewBz = param.getReviewRemarks();
 		if (TextUtils.isEmptys(id, reviewStatus, reviewBz)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		CustomerData customerDataCheck = baseService.getById(Long.parseLong(id));
 		if (customerDataCheck == null) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		if (!(customerDataCheck.getReviewStatus().equals(DBDictionaryEnumManager.review_0.getkey()))) {
 			log.info("不是待审核状态，不可审核！");
@@ -321,7 +321,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 		JsonResult<Object> result = new JsonResult<Object>();
 		if (param.getId() == null) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		String id = String.valueOf(param.getId());
 		CustomerData customerData = new CustomerData();
@@ -374,14 +374,14 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 		String getSign = param.getGetSign();
 		if (TextUtils.isEmptys(id, getSign)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		// 查看
 		if (getSign.equals("lookCustomer")) {
 			CustomerData customerData = customerDataService.getById(id);
 			if (customerData == null) {
 				log.info("参数异常");
-				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+				throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 			}
 			returnPage.success("查询成功！");
 			returnPage.setData(customerData);
@@ -391,7 +391,7 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 			CustomerData customerData = customerDataService.getById(id);
 			if (customerData == null) {
 				log.info("参数异常");
-				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+				throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 			}
 			String reviewStatus = customerData.getReviewStatus();
 			// 审核状态为0或者不通过才可以查看
@@ -400,12 +400,12 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 				returnPage.success("查询成功！");
 				returnPage.setData(customerData);
 			} else {
-				returnPage.success("审核状态不对，查询失败！");
+				returnPage.error("审核状态不对，查询失败！");
 				returnPage.setData(null);
 			}
 		} else {
 			log.info("参数异常");
-			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+			throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 		}
 		return returnPage;
 	}

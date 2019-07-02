@@ -20,7 +20,7 @@ import com.ydsh.merchant.common.db.DBKeyGenerator;
 import com.ydsh.merchant.common.enums.DBBusinessKeyTypeEnums;
 import com.ydsh.merchant.common.enums.DBDictionaryEnumManager;
 import com.ydsh.merchant.common.enums.ErrorCode;
-import com.ydsh.merchant.common.exception.SystemException;
+import com.ydsh.merchant.common.exception.BizException;
 import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplierData;
@@ -77,7 +77,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		if (TextUtils.isEmptys(supplierName, trade, type, legperson, reqperson, province, city, reqPhone, forshort,
 				logo)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		// 供应商编码
 		String sdNo = DBKeyGenerator.generatorDBKey(DBBusinessKeyTypeEnums.S, trade);
@@ -119,9 +119,9 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String forshort = entity.getForshort();
 		String logo = entity.getLogo();
 		if (TextUtils.isEmptys(sdNo, supplierName, trade, type, legperson, reqperson, province, city, reqPhone,
-				forshort, logo)) {
+				forshort, logo)) { 
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		if (null != entity) {
 			entity.setReviewStatus(DBDictionaryEnumManager.review_0.getkey());
@@ -154,12 +154,12 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			String supplierStatus = param.getSupplierStatus();
 			if (TextUtils.isEmptys(id, supplierStatus)) {
 				log.info("参数为空");
-				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+				throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 			}
 			SupplierData supplierDataCheck = baseService.getById(Long.parseLong(id));
 			if (supplierDataCheck == null) {
 				log.info("参数异常");
-				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+				throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 			}
 			// 启用
 			if (supplierStatus.equals(DBDictionaryEnumManager.user_status_0.getkey())) {
@@ -190,7 +190,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 				return result;
 			} else {
 				log.info("参数异常");
-				throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+				throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 			}
 	}
 
@@ -209,7 +209,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		JsonResult<Object> result = new JsonResult<Object>();
 		if(param.getId()==null||param.getStatus()==null||param.getStatus()=="") {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		String id = String.valueOf(param.getId());
 		SupplierData supplierData = new SupplierData();
@@ -236,7 +236,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String reviewRemarks = param.getReviewRemarks();
 		if (TextUtils.isEmptys(id, reviewStatus)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		SupplierData supplierData = new SupplierData();
 		supplierData.setId(Long.parseLong(id));
@@ -263,7 +263,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 		String getSign = param.getGetSign();
 		if (TextUtils.isEmptys(id, getSign)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		// 查看
 		if (getSign.equals("lookSupplier")) {
@@ -287,7 +287,7 @@ public class SupplierDataController extends AbstractController<SupplierDataServi
 			}
 		}else {
 			log.info("参数异常");
-			throw new SystemException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常", new Exception());
+			throw new BizException(ErrorCode.SYS_EXCEPTION.getCode(), "参数异常");
 		}
 	}
 

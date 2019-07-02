@@ -23,7 +23,7 @@ import com.ydsh.generator.common.JsonResult;
 import com.ydsh.generator.common.PageParam;
 import com.ydsh.merchant.common.enums.DBDictionaryEnumManager;
 import com.ydsh.merchant.common.enums.ErrorCode;
-import com.ydsh.merchant.common.exception.SystemException;
+import com.ydsh.merchant.common.exception.BizException;
 import com.ydsh.merchant.common.util.TextUtils;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplierPayAddcount;
@@ -100,7 +100,7 @@ public class SupplierPayAddcountController extends AbstractController<SupplierPa
 			String rechargeWay=entity.getRechargeWay();
 			if (TextUtils.isEmptys(accountBook,recharge,rechargeWay)) {
 				log.info("参数为空");
-				throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+				throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 			}
 			SupplierPayAddcount supplierPayAddcount = new SupplierPayAddcount();
 			BeanUtils.copyProperties(entity, supplierPayAddcount);
@@ -134,7 +134,7 @@ public class SupplierPayAddcountController extends AbstractController<SupplierPa
 		String reviewStatus = entity.getReviewStatus();
 		if (TextUtils.isEmptys(id, reviewStatus)) {
 			log.info("参数为空");
-			throw new SystemException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空", new Exception());
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
 		}
 		SupplierPayAddcount supplierPayAddcount = baseService.getById(id);
 		// 待审核状态才允许审核
