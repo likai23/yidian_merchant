@@ -206,14 +206,14 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 
 	/**
 	 * 
-	 * *启用/禁用 客户
+	 * *启用/禁用/加入黑名单 客户
 	 * 
 	 * @param @param  param
 	 * @param @return
 	 * @return
 	 */
 	@RequestMapping(value = "/updateCustomerStatus", method = RequestMethod.POST)
-	@ApiOperation(value = "修改客户状态", notes = "作者：戴艺辉")
+	@ApiOperation(value = "启用/禁用/加入黑名单 客户", notes = "作者：戴艺辉")
 	public JsonResult<Object> updateCustomerStatus(@RequestBody updateCustomerData param) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		// 更新客户状态
@@ -360,14 +360,14 @@ public class CustomerDataController extends AbstractController<CustomerDataServi
 
 	/**
 	 * 
-	 * *根据id获取客户基本信息
+	 * *查看/修改进入查询客户基本信息
 	 *
 	 * @param @param  param
 	 * @param @return
 	 * @return
 	 */
 	@RequestMapping(value = "/getCustomerById", method = RequestMethod.GET)
-	@ApiOperation(value = "分页查询", notes = "分页查询返回JsonResult<CustomerData>,作者：戴艺辉")
+	@ApiOperation(value = "查看/修改进入查询客户基本信息", notes = "分页查询返回JsonResult<CustomerData>,作者：戴艺辉")
 	public JsonResult<CustomerData> getCustomerById(@RequestBody LookAndTakeInCustomerDataDto param) {
 		JsonResult<CustomerData> returnPage = new JsonResult<CustomerData>();
 		String id = String.valueOf(param.getId());

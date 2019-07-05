@@ -23,6 +23,8 @@ import com.ydsh.generator.common.JsonResult;
 import com.ydsh.merchant.common.db.DBKeyGenerator;
 import com.ydsh.merchant.common.enums.DBBusinessKeyTypeEnums;
 import com.ydsh.merchant.common.enums.DBDictionaryEnumManager;
+import com.ydsh.merchant.common.enums.ErrorCode;
+import com.ydsh.merchant.common.exception.BizException;
 import com.ydsh.merchant.web.controller.base.AbstractController;
 import com.ydsh.merchant.web.entity.SupplyPriceAdjustment;
 import com.ydsh.merchant.web.entity.SupplyPriceAdjustmentDetail;
@@ -87,6 +89,39 @@ public class SupplyPriceAdjustmentController extends AbstractController<SupplyPr
 		returnPage.success("设置供应价成功！");
 		return returnPage;
 	}
+	
+    /**
+     * 
+    * *修改供应价设置（采购管理-供应价设置）
+    *
+    * @param @param param
+    * @param @return
+    * @return
+     */
+	@RequestMapping(value = "/updateSupplyPriceAdjustmentAndDetails", method = RequestMethod.POST)
+	@ApiOperation(value = "修改供应价设置", notes = "分页查询返回JsonResult<Object>,作者：戴艺辉")
+	public JsonResult<Object> updateSupplyPriceAdjustmentAndDetails(@RequestBody saveSupplyPriceAdjustmentAndDetails param) {
+		JsonResult<Object> returnPage = new JsonResult<Object>();
+		// 验证是否为空
+		//待审核
+		SupplyPriceAdjustment supplyPriceAdjustment =new SupplyPriceAdjustment();
+        BeanUtils.copyProperties(param, supplyPriceAdjustment);		
+        supplyPriceAdjustment.setSupplyPriceAdjustmentNo(DBKeyGenerator.generatorDBKey(DBBusinessKeyTypeEnums.PPA, null));
+		baseService.save(supplyPriceAdjustment);
+		List<SupplyPriceAdjustmentDetailDto> supplyPriceAdjustmentDetailList =param.getSupplyPriceAdjustmentDetailList();
+        for(SupplyPriceAdjustmentDetailDto var:supplyPriceAdjustmentDetailList) {
+        	SupplyPriceAdjustmentDetail supplyPriceAdjustmentDetail=new SupplyPriceAdjustmentDetail();
+        	var.setBppaId(supplyPriceAdjustment.getId());
+        	BeanUtils.copyProperties(var, supplyPriceAdjustmentDetail);
+        	supplyPriceAdjustmentDetail.setGcsOldPurchasePrice(new BigDecimal(var.getGcsOldPurchasePrice()).multiply(new BigDecimal("10000")).longValue());
+        	supplyPriceAdjustmentDetail.setGcsNewPurchasePrice(new BigDecimal(var.getGcsNewPurchasePrice()).multiply(new BigDecimal("10000")).longValue());
+        	supplyPriceAdjustmentDetailService.save(supplyPriceAdjustmentDetail);
+        }
+		returnPage.success("设置供应价成功！");
+		return returnPage;
+	}
+	
+	
 	/**
 	 * 
 	 * *审核供应价设置（采购管理-供应价设置）
@@ -125,6 +160,76 @@ public class SupplyPriceAdjustmentController extends AbstractController<SupplyPr
 	
 	/**
 	 * 
+	 * *修改进入查询供应价调整单
+	 *
+	 * @param @param param
+	 * @param @return
+	 * @return
+	 */
+	@RequestMapping(value = "/updateGetInSupplyPriceAdjustmentAndDetails", method = RequestMethod.POST)
+	@ApiOperation(value = "修改进入查询供应价调整单", notes = "分页查询返回JsonResult<Object>,作者：戴艺辉")
+	public JsonResult<saveSupplyPriceAdjustmentAndDetailsTwo> updateGetInSupplyPriceAdjustmentAndDetails(@RequestBody getSupplyPriceAdjustmentAndDetailsList param) {
+		JsonResult<saveSupplyPriceAdjustmentAndDetailsTwo> returnPage = new JsonResult<saveSupplyPriceAdjustmentAndDetailsTwo>();
+        if(param.getId()==null) {
+			log.info("参数为空");
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
+        }
+        Long id=param.getId();
+        SupplyPriceAdjustment supplyPriceAdjustment=baseService.getById(id);
+        String reviewStatus=supplyPriceAdjustment.getReviewStatus();
+        if(!(reviewStatus.equals(DBDictionaryEnumManager.review_0.getkey())||reviewStatus.equals(DBDictionaryEnumManager.review_2.getkey()))){
+        	log.info("不是待审核或审核不通过状态，不允许修改");
+        	returnPage.error("不是待审核或审核不通过状态，不允许修改");
+        	return returnPage;
+        }
+        saveSupplyPriceAdjustmentAndDetailsTwo  entity =new saveSupplyPriceAdjustmentAndDetailsTwo();
+		BeanUtils.copyProperties(supplyPriceAdjustment, entity);
+		QueryWrapper<SupplyPriceAdjustmentDetail> queryWrapper1 = new QueryWrapper<SupplyPriceAdjustmentDetail>(); 
+		queryWrapper1.eq("bppa_id", id);
+		List<SupplyPriceAdjustmentDetail> list2=supplyPriceAdjustmentDetailService.list(queryWrapper1);
+		entity.setSupplyPriceAdjustmentDetailList(list2);
+		returnPage.success("查询成功");
+		returnPage.setData(entity);
+		return returnPage;
+	}
+	
+	/**
+	 * 
+	 * *查看供应价调整单
+	 *
+	 * @param @param param
+	 * @param @return
+	 * @return
+	 */
+	@RequestMapping(value = "/lookSupplyPriceAdjustmentAndDetails", method = RequestMethod.POST)
+	@ApiOperation(value = "查看供应价调整单", notes = "分页查询返回JsonResult<Object>,作者：戴艺辉")
+	public JsonResult<saveSupplyPriceAdjustmentAndDetailsTwo> lookSupplyPriceAdjustmentAndDetails(@RequestBody getSupplyPriceAdjustmentAndDetailsList param) {
+		JsonResult<saveSupplyPriceAdjustmentAndDetailsTwo> returnPage = new JsonResult<saveSupplyPriceAdjustmentAndDetailsTwo>();
+        if(param.getId()==null) {
+			log.info("参数为空");
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
+        }
+        Long id=param.getId();
+        SupplyPriceAdjustment supplyPriceAdjustment=baseService.getById(id);
+        String reviewStatus=supplyPriceAdjustment.getReviewStatus();
+        if(!(reviewStatus.equals(DBDictionaryEnumManager.review_0.getkey())||reviewStatus.equals(DBDictionaryEnumManager.review_2.getkey()))){
+        	log.info("不是待审核或审核不通过状态，不允许修改");
+        	returnPage.error("不是待审核或审核不通过状态，不允许修改");
+        	return returnPage;
+        }
+        saveSupplyPriceAdjustmentAndDetailsTwo  entity =new saveSupplyPriceAdjustmentAndDetailsTwo();
+		BeanUtils.copyProperties(supplyPriceAdjustment, entity);
+		QueryWrapper<SupplyPriceAdjustmentDetail> queryWrapper1 = new QueryWrapper<SupplyPriceAdjustmentDetail>(); 
+		queryWrapper1.eq("bppa_id", id);
+		List<SupplyPriceAdjustmentDetail> list2=supplyPriceAdjustmentDetailService.list(queryWrapper1);
+		entity.setSupplyPriceAdjustmentDetailList(list2);
+		returnPage.success("查询成功");
+		returnPage.setData(entity);
+		return returnPage;
+	}
+	
+	/**
+	 * 
 	 * *得到供应价和明细数组
 	 *
 	 * @param @param param
@@ -135,6 +240,10 @@ public class SupplyPriceAdjustmentController extends AbstractController<SupplyPr
 	@ApiOperation(value = "得到供应价和明细数组", notes = "分页查询返回JsonResult<Object>,作者：戴艺辉")
 	public JsonResult<List<saveSupplyPriceAdjustmentAndDetailsTwo>> getSupplyPriceAdjustmentAndDetails(@RequestBody getSupplyPriceAdjustmentAndDetailsList param) {
 		JsonResult<List<saveSupplyPriceAdjustmentAndDetailsTwo>> returnPage = new JsonResult<List<saveSupplyPriceAdjustmentAndDetailsTwo>>();
+		if(param.getId()==null) {
+			log.info("参数为空");
+			throw new BizException(ErrorCode.ILLEGAL_ARGUMENT.getCode(), "参数不能为空");
+		}
 		QueryWrapper<SupplyPriceAdjustment> queryWrapper = new QueryWrapper<SupplyPriceAdjustment>();
 		List<saveSupplyPriceAdjustmentAndDetailsTwo> returnList=new ArrayList<saveSupplyPriceAdjustmentAndDetailsTwo>();
 		queryWrapper.eq("id", param.getId());

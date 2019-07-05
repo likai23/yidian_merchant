@@ -91,7 +91,7 @@ public class SupplierPayAddcountController extends AbstractController<SupplierPa
 	 * @time 2019-06-11 09:49:42
 	 */
 	@RequestMapping(value = "/saveSupplierPayAddcount", method = RequestMethod.POST)
-	@ApiOperation(value = "添加", notes = "作者：戴艺辉")
+	@ApiOperation(value = "保存充值记录", notes = "作者：戴艺辉")
 	public JsonResult<Object> saveSupplierPayAddcount(@RequestBody SupplierPayAddcountDto entity) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		if (null != entity) {

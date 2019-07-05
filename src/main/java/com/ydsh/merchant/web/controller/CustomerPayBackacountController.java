@@ -128,9 +128,9 @@ public class CustomerPayBackacountController
 	 * @author 戴艺辉
 	 * @time 2019-06-11 09:49:42
 	 */
-	@RequestMapping(value = "/reviewCustomerPayAddcount", method = RequestMethod.POST)
+	@RequestMapping(value = "/reviewCustomerPayBackcount", method = RequestMethod.POST)
 	@ApiOperation(value = "审核回款记录", notes = "作者：戴艺辉")
-	public JsonResult<Object> reviewCustomerPayAddcount(@RequestBody reviewCustomerPayBackacountDto entity) {
+	public JsonResult<Object> reviewCustomerPayBackcount(@RequestBody reviewCustomerPayBackacountDto entity) {
 		JsonResult<Object> result = new JsonResult<Object>();
 		String id = String.valueOf(entity.getId());
 		String cdId = String.valueOf(entity.getCdId());
